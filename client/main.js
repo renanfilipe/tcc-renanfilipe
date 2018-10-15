@@ -8,8 +8,19 @@ import Login from "./../imports/ui/others/Login";
 import { Router, Route, Switch } from "react-router";
 import { createBrowserHistory } from "history";
 import "./main.html";
+import MySnackbar from "./../imports/ui/others/MySnackbar";
+
+
+const renderSnackbar = (message, color) => {
+	console.log("const");
+
+	return (
+		<MySnackbar message={message} color={color}/>
+	);
+};
 
 const browserHistory = createBrowserHistory();
+
 
 const routes = (
 	<Router history={browserHistory}>
@@ -20,11 +31,11 @@ const routes = (
 					exact
 					component={Signup}
 				/>
-                <Route
-                    path="/recover-password"
-                    exact
-                    component={RecoverPassword}
-                />
+				<Route
+					path="/recover-password"
+					exact
+					component={RecoverPassword}
+				/>
 				<Route
 					path="/"
 					exact

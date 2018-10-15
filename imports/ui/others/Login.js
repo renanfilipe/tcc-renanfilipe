@@ -3,6 +3,7 @@ import Logo from './Logo';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { Meteor } from "meteor/meteor";
+import MySnackbar from "./MySnackbar";
 
 class Login extends Component{
 	state = {
@@ -11,35 +12,36 @@ class Login extends Component{
 		error: "",
 	};
 
-    handleChange = name => event => {
-        this.setState({
-            [name]: event.target.value,
-        });
-    };
+	handleChange = name => event => {
+		this.setState({
+			[name]: event.target.value,
+		});
+	};
 
-    onSubmit = event => {
-        event.preventDefault();
+	onSubmit = event => {
+		event.preventDefault();
 
-        const email = this.state.email.trim();
-        const password = this.state.password.trim();
+		const email = this.state.email.trim();
+		const password = this.state.password.trim();
 
-        Meteor.loginWithPassword({email}, password, (err) => {
-            if (err) {
-            	console.log('Unable to login. Check email and password.');
-                this.setState({error: 'Unable to login. Check email and password.'});
-            } else {
-                this.setState({error: ''});
-            }
-        });
-    };
+		Meteor.loginWithPassword({email}, password, (err) => {
+			if (err) {
+				this.setState({error: 'Unable to login. Check email and password.'});
+				console.log('Unable to login. Check email and password.');
+			} else {
+				this.setState({error: ''});
+			}
+		});
+	};
 
 	render() {
 		return (
 			<div style={styles.centerItem}>
 				<div style={styles.container}>
+					{this.state.error ? <MySnackbar message={this.state.error}/> : undefined}
 					<Logo/>
 					<form style={styles.formContainer}>
-                        <span style={styles.boxTitle}>Log In</span>
+						<span style={styles.boxTitle}>Log In</span>
 						<TextField
 							id="email"
 							label="Email"
@@ -50,8 +52,8 @@ class Login extends Component{
 							autoComplete="email"
 							margin="none"
 							variant="outlined"
-                            value={this.state.email}
-                            onChange={this.handleChange("email")}
+							value={this.state.email}
+							onChange={this.handleChange("email")}
 						/>
 						<TextField
 							id="password"
@@ -62,8 +64,8 @@ class Login extends Component{
 							autoComplete="password"
 							margin="none"
 							variant="outlined"
-                            value={this.state.password}
-                            onChange={this.handleChange("password")}
+							value={this.state.password}
+							onChange={this.handleChange("password")}
 						/>
 						<Button
 							variant="contained"
@@ -99,24 +101,24 @@ const styles = {
 		alignItems: "center",
 		width: "100%",
 	},
-    container: {
-        flexDirection: "column",
-        width: 345,
-    },
-    formContainer: {
-        display: "flex",
-        flexDirection: "column",
-        height: 280,
-        justifyContent: "space-evenly",
-        border: "solid 1px rgba(0, 0, 0, 0.23)",
-        padding: "0px 20px 15px 20px",
-        marginTop: 10,
-        borderRadius: 4,
-    },
-    boxTitle: {
-        fontSize: 24,
-        textAlign: "center",
-    },
+	container: {
+		flexDirection: "column",
+		width: 345,
+	},
+	formContainer: {
+		display: "flex",
+		flexDirection: "column",
+		height: 280,
+		justifyContent: "space-evenly",
+		border: "solid 1px rgba(0, 0, 0, 0.23)",
+		padding: "0px 20px 15px 20px",
+		marginTop: 10,
+		borderRadius: 4,
+	},
+	boxTitle: {
+		fontSize: 24,
+		textAlign: "center",
+	},
 	buttonContainer: {
 		justifyContent: "space-between",
 	},
