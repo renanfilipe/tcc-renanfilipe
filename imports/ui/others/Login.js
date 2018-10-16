@@ -27,6 +27,7 @@ class Login extends Component{
 		Meteor.loginWithPassword({email}, password, (err) => {
 			if (err) {
 				this.setState({error: 'Unable to login. Check email and password.'});
+				this.props.snackbar("oi", "danger");
 				console.log('Unable to login. Check email and password.');
 			} else {
 				this.setState({error: ''});
@@ -38,7 +39,14 @@ class Login extends Component{
 		return (
 			<div style={styles.centerItem}>
 				<div style={styles.container}>
-					{this.state.error ? <MySnackbar message={this.state.error}/> : undefined}
+					{/*{*/}
+						{/*this.state.error ?*/}
+							{/*<MySnackbar*/}
+								{/*message={this.state.error}*/}
+								{/*variant="danger"*/}
+								{/*open={true}*/}
+							{/*/> : undefined*/}
+					{/*}*/}
 					<Logo/>
 					<form style={styles.formContainer}>
 						<span style={styles.boxTitle}>Log In</span>
