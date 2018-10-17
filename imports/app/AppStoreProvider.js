@@ -1,16 +1,25 @@
 import React, { Component } from 'react';
-import Snackbar from '../ui/others/MySnackbar';
+import SnackBar from '../ui/others/MySnackbar';
 
 export const AppContext = React.createContext();
 
 export default class AppStoreProvider extends Component {
 	constructor(props) {
 		super(props);
+		this.children = props.children;
 		this.state = {
 			openSnackBar: false,
 			snackBarMessage: '',
 			variant: 'info',
 		};
+	}
+
+	componentDidMount() {
+		this.children = this.props.children;
+	}
+
+	componentWillReceiveProps(nextProps) {
+		this.children = nextProps.children;
 	}
 
 	handleOpenSnackBar = (message, variant = 'info') => {
@@ -25,12 +34,12 @@ export default class AppStoreProvider extends Component {
 		return (
 			<AppContext.Provider
 				value={{
-					openSnackBar: this.handleOpenSnackBar,
+					snackBar: this.handleOpenSnackBar,
 				}}
 			>
-				<Snackbar
-					variant={this.state.variant || 'primary'}
-					anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+				{this.children}
+				<SnackBar
+					variant={this.state.variant || 'info'}
 					open={this.state.openSnackBar}
 					onClose={this.handleCloseSnackBar}
 					autoHideDuration={3000}

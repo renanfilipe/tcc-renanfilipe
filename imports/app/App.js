@@ -17,46 +17,40 @@ const AppBase = props => {
 	);
 };
 
-class App extends React.Component {
-	render(){
-		return(
-			<AppContext.Consumer>
-				{context => {
-					return (
-						<Router history={browserHistory}>
-							<div style={{width: "100%"}}>
-								<Switch>
-									<Route
-										path="/signup"
-										exact
-										component={Signup}
-										{...context}
-									/>
-									<Route
-										path="/recover-password"
-										exact
-										component={RecoverPassword}
-										{...context}
-									/>
-									<Route
-										path="/"
-										exact
-										component={Login}
-										{...context}
-									/>
-									<Route
-										path="*"
-										component={NotFound}
-										{...context}
-									/>
-								</Switch>
-							</div>
-						</Router>
-					);
-				}}
-			</AppContext.Consumer>
-		);
-	}
-}
+const App = props => {
+	return(
+		<AppContext.Consumer>
+			{context => {
+				return (
+					<Router history={browserHistory}>
+						<div style={{width: "100%"}}>
+							<Switch>
+								<Route
+									path="/signup"
+									exact
+									render={()=> <Signup {...context} {...props}/>}
+								/>
+								<Route
+									path="/recover-password"
+									exact
+									render={()=> <RecoverPassword {...context} {...props}/>}
+								/>
+								<Route
+									path="/"
+									exact
+									render={()=> <Login {...context} {...props}/>}
+								/>
+								<Route
+									path="*"
+									render={()=> <NotFound {...context} {...props}/>}
+								/>
+							</Switch>
+						</div>
+					</Router>
+				);
+			}}
+		</AppContext.Consumer>
+	);
+};
 
 export default AppBase;

@@ -3,13 +3,14 @@ import Logo from './Logo';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { Meteor } from "meteor/meteor";
-import MySnackbar from "./MySnackbar";
 
 class Login extends Component{
-	state = {
-		email: "",
-		password: "",
-		error: "",
+	constructor(props){
+		super(props);
+		this.state = {
+			email: "",
+			password: "",
+		};
 	};
 
 	handleChange = name => event => {
@@ -26,11 +27,7 @@ class Login extends Component{
 
 		Meteor.loginWithPassword({email}, password, (err) => {
 			if (err) {
-				this.setState({error: 'Unable to login. Check email and password.'});
-				this.props.snackbar("oi", "danger");
-				console.log('Unable to login. Check email and password.');
-			} else {
-				this.setState({error: ''});
+				this.props.snackBar("Unable to login. Check email and password.", "danger");
 			}
 		});
 	};
@@ -39,14 +36,6 @@ class Login extends Component{
 		return (
 			<div style={styles.centerItem}>
 				<div style={styles.container}>
-					{/*{*/}
-						{/*this.state.error ?*/}
-							{/*<MySnackbar*/}
-								{/*message={this.state.error}*/}
-								{/*variant="danger"*/}
-								{/*open={true}*/}
-							{/*/> : undefined*/}
-					{/*}*/}
 					<Logo/>
 					<form style={styles.formContainer}>
 						<span style={styles.boxTitle}>Log In</span>
