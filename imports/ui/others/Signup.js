@@ -1,72 +1,117 @@
-import React, {Component} from 'react';
-import Logo from './Logo';
-import TextField from "@material-ui/core/TextField/TextField";
+import React, {Component} from "react";
+import Logo from "./Logo";
 import Button from "@material-ui/core/Button/Button";
-import Checkbox from '@material-ui/core/Checkbox';
-import FormGroup from '@material-ui/core/FormGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from "@material-ui/core/Checkbox";
+import FormGroup from "@material-ui/core/FormGroup";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
+import { withStyles } from '@material-ui/core/styles';
 
 class Signup extends Component{
-	state = {
-		checkBox: false,
-		error: "",
-		email: "",
-	};
+	constructor(props) {
+		super(props);
+
+		this.state = {
+			email: "",
+			password: "",
+			repeatPassword: "",
+			checkBox: false,
+		};
+	}
+
+	componentWillMount() {
+		ValidatorForm.addValidationRule("isPasswordMatch", (value) => {
+			return value === this.state.password;
+		});
+		ValidatorForm.addValidationRule("passwordLength", () => {
+			return this.state.password.length >= 6;
+		});
+	}
 
 	handleChange = name => event => {
-		this.setState({[name]: event.target.checked});
+		this.setState({[name]: event.target.value});
+	};
+
+	handleCheckBox = () => {
+		this.setState({checkBox: !this.state.checkBox});
+	};
+
+	handleSubmit = () => {
+		this.setState({ submitted: true }, () => {
+			setTimeout(() => this.setState({ submitted: false }), 5000);
+		});
 	};
 
 	render() {
+		const { classes } = this.props;
 		return (
-			<div style={styles.centerItem}>
-				<div style={styles.container}>
+			<div className={classes.centerItem}>
+				<div className={classes.container}>
 					<Logo/>
-					<form style={styles.formContainer} onSubmit={this.onSubmit}>
-						<span style={styles.boxTitle}>Register</span>
-						<TextField
+					<ValidatorForm className={classes.formContainer} onSubmit={this.handleSubmit}>
+						<span className={classes.boxTitle}>Register</span>
+						<TextValidator
 							id="email"
 							label="Email"
 							type="email"
 							name="email"
 							fullWidth
-							required
 							autoComplete="email"
 							margin="none"
 							variant="outlined"
+							onChange={this.handleChange("email")}
+							validators={["required", "isEmail"]}
+							errorMessages={["This field is required", "Email is not valid"]}
+							value={this.state.email}
+							FormHelperTextProps={{
+								className: classes.marginDense
+							}}
 						/>
-						<TextField
+						<TextValidator
 							id="password"
 							label="Password"
-							fullWidth
-							required
 							type="password"
-							autoComplete="current-password"
+							name="password"
+							fullWidth
 							margin="none"
 							variant="outlined"
+							onChange={this.handleChange("password")}
+							validators={["required", "passwordLength"]}
+							errorMessages={["This field is required", "Password must be at least 6 characters long"]}
+							value={this.state.password}
+							FormHelperTextProps={{
+								className: classes.marginDense
+							}}
 						/>
-						<TextField
-							id="confirm-password"
-							label="Confirm Password"
-							fullWidth
-							required
+						<TextValidator
+							id="repeat-password"
+							label="Repeat password"
 							type="password"
+							name="repeatPassword"
+							fullWidth
 							margin="none"
 							variant="outlined"
+							onChange={this.handleChange("repeatPassword")}
+							validators={["required", "isPasswordMatch"]}
+							errorMessages={["This field is required", "Password mismatch"]}
+							value={this.state.repeatPassword}
+							FormHelperTextProps={{
+								className: classes.marginDense
+							}}
 						/>
 						<FormGroup row>
 							<FormControlLabel
 								control={
 									<Checkbox
 										checked={this.state.checkBox}
-										onChange={this.handleChange('checkBox')}
+										onChange={this.handleCheckBox}
 										value="checkBox"
 									/>
 								}
 								label="I agree to Meta Exchange's Term of Use"
 							/>
 						</FormGroup>
-						<div style={styles.buttonContainer}>
+						<div className={classes.buttonContainer}>
 							<Button
 								variant="contained"
 								href="/"
@@ -75,11 +120,12 @@ class Signup extends Component{
 							</Button>
 							<Button
 								variant="contained"
+								type="submit"
 							>
 								Submit
 							</Button>
 						</div>
-					</form>
+					</ValidatorForm>
 				</div>
 			</div>
 		);
@@ -113,6 +159,10 @@ const styles = {
 	buttonContainer: {
 		justifyContent: "space-between",
 	},
+	marginDense: {
+		marginTop: 0,
+		marginBottom: 5,
+	}
 };
 
-export default Signup;
+export default withStyles(styles)(Signup);

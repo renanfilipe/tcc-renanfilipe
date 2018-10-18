@@ -1,11 +1,12 @@
-import React from 'react';
+import React from "react";
+import { withStyles } from "@material-ui/core/styles";
 
 const logo = '/images/logo.png';
 
-const Logo = () => (
-	<div style={styles.container}>
-		<img src={logo} style={styles.image}/>
-		<span style={styles.p}>META<br/>EXCHANGE</span>
+const Logo = ({ classes }) => (
+	<div className={classes.container}>
+		<img src={logo} className={classes.image}/>
+		<span className={classes.p}>META<br/>EXCHANGE</span>
 	</div>
 );
 
@@ -26,4 +27,4 @@ const styles = {
 	}
 };
 
-export default Logo;
+export default withStyles(styles)(Logo);

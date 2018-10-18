@@ -3,6 +3,7 @@ import Logo from './Logo';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { Meteor } from "meteor/meteor";
+import { withStyles } from "@material-ui/core/styles";
 
 class Login extends Component{
 	constructor(props){
@@ -25,7 +26,7 @@ class Login extends Component{
 		const email = this.state.email.trim();
 		const password = this.state.password.trim();
 
-		Meteor.loginWithPassword({email}, password, (err) => {
+		Meteor.loginWithPassword({ email }, password, (err) => {
 			if (err) {
 				this.props.snackBar("Unable to login. Check email and password.", "danger");
 			}
@@ -33,12 +34,13 @@ class Login extends Component{
 	};
 
 	render() {
+		const { classes } = this.props;
 		return (
-			<div style={styles.centerItem}>
-				<div style={styles.container}>
+			<div className={classes.centerItem}>
+				<div className={classes.container}>
 					<Logo/>
-					<form style={styles.formContainer}>
-						<span style={styles.boxTitle}>Log In</span>
+					<form className={classes.formContainer}>
+						<span className={classes.boxTitle}>Log In</span>
 						<TextField
 							id="email"
 							label="Email"
@@ -71,7 +73,7 @@ class Login extends Component{
 						>
 							Log In
 						</Button>
-						<div style={styles.buttonContainer}>
+						<div className={classes.buttonContainer}>
 							<Button
 								variant="contained"
 								href="/recover-password"
@@ -121,4 +123,4 @@ const styles = {
 	},
 };
 
-export default Login;
+export default withStyles(styles)(Login);

@@ -3,13 +3,13 @@ import Logo from './Logo';
 import TextField from "@material-ui/core/TextField/TextField";
 import Button from "@material-ui/core/Button/Button";
 import { Accounts } from "meteor/accounts-base";
+import {withStyles} from "@material-ui/core/styles";
 
-class Signup extends Component{
+class RecoverPassword extends Component{
 	constructor(props){
 		super(props);
 		this.state = {
 			email: "",
-			emailError: false,
 		}
 	};
 
@@ -19,49 +19,43 @@ class Signup extends Component{
 		});
 	};
 
-	onSubmit = (e) => {
-		e.preventDefault();
+	onSubmit = (event) => {
+		event.preventDefault();
 
-		const options = {};
-		options.email = this.state.email.trim();
+		const email = this.state.email.trim();
 
-		if (!options.email){
+		if (!email){
 			return;
 		}
 
-		Accounts.forgotPassword(options , (err) => {
-			console.log(err);
-			if (err) {
-				if (err.error === 403) {
-					this.props.snackBar("Usuário não encontrado.", "danger");
-				} else if (err.error === 400) {
-					this.setState({emailError: true})
-				}
-			}
+		Accounts.forgotPassword({ email } , (error) => {
+			this.props.snackBar("We have sent a confirmation email to your registered email address. " +
+				"Please follow the instructions in the email to continue.", "success");
+			console.log(error);
 		});
 	};
 
 	render() {
+		const { classes } = this.props;
 		return (
-			<div style={styles.centerItem}>
-				<div style={styles.container}>
+			<div className={classes.centerItem}>
+				<div className={classes.container}>
 					<Logo/>
-					<form style={styles.formContainer} onSubmit={this.onSubmit}>
-						<span style={styles.boxTitle}>Recover Password</span>
+					<form className={classes.formContainer} onSubmit={this.onSubmit}>
+						<span className={classes.boxTitle}>Recover Password</span>
 						<TextField
 							id="email"
 							label="Email"
 							type="email"
 							name="email"
 							fullWidth
-							error={this.state.emailError}
 							autoComplete="email"
 							margin="none"
 							variant="outlined"
 							value={this.state.email}
 							onChange={this.handleChange("email")}
 						/>
-						<div style={styles.buttonContainer}>
+						<div className={classes.buttonContainer}>
 							<Button
 								variant="contained"
 								href="/"
@@ -111,4 +105,4 @@ const styles = {
 	},
 };
 
-export default Signup;
+export default withStyles(styles)(RecoverPassword);
