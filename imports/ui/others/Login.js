@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import Logo from './Logo';
-import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { Meteor } from "meteor/meteor";
 import { withStyles } from "@material-ui/core/styles";
+import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
 
 class Login extends Component{
 	constructor(props){
 		super(props);
+
 		this.state = {
 			email: "",
 			password: "",
@@ -20,7 +21,7 @@ class Login extends Component{
 		});
 	};
 
-	onSubmit = event => {
+	handleSubmit = event => {
 		event.preventDefault();
 
 		const email = this.state.email.trim();
@@ -39,37 +40,45 @@ class Login extends Component{
 			<div className={classes.centerItem}>
 				<div className={classes.container}>
 					<Logo/>
-					<form className={classes.formContainer}>
+					<ValidatorForm className={classes.formContainer} onSubmit={this.handleSubmit}>
 						<span className={classes.boxTitle}>Log In</span>
-						<TextField
+						<TextValidator
 							id="email"
 							label="Email"
 							type="email"
 							name="email"
 							fullWidth
-							required
 							autoComplete="email"
 							margin="none"
 							variant="outlined"
 							value={this.state.email}
 							onChange={this.handleChange("email")}
+							validators={["required", "isEmail"]}
+							errorMessages={["This field is required", "Email is not valid"]}
+							FormHelperTextProps={{
+								className: classes.marginDense
+							}}
 						/>
-						<TextField
+						<TextValidator
 							id="password"
 							label="Password"
-							fullWidth
-							required
 							type="password"
-							autoComplete="password"
+							name="password"
+							fullWidth
 							margin="none"
 							variant="outlined"
 							value={this.state.password}
 							onChange={this.handleChange("password")}
+							validators={["required"]}
+							errorMessages={["This field is required"]}
+							FormHelperTextProps={{
+								className: classes.marginDense
+							}}
 						/>
 						<Button
 							variant="contained"
 							fullWidth
-							onClick={this.onSubmit}
+							type="submit"
 						>
 							Log In
 						</Button>
@@ -87,7 +96,7 @@ class Login extends Component{
 								Register
 							</Button>
 						</div>
-					</form>
+					</ValidatorForm>
 				</div>
 			</div>
 		);
@@ -120,6 +129,10 @@ const styles = {
 	},
 	buttonContainer: {
 		justifyContent: "space-between",
+	},
+	marginDense: {
+		marginTop: 0,
+		marginBottom: 5,
 	},
 };
 

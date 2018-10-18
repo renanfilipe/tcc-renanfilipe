@@ -37,9 +37,7 @@ class Signup extends Component{
 	};
 
 	handleSubmit = () => {
-		this.setState({ submitted: true }, () => {
-			setTimeout(() => this.setState({ submitted: false }), 5000);
-		});
+		console.log("submit");
 	};
 
 	render() {
@@ -106,6 +104,8 @@ class Signup extends Component{
 										checked={this.state.checkBox}
 										onChange={this.handleCheckBox}
 										value="checkBox"
+										validators={["isPositive"]}
+										errorMessages={["You must agree with our terms"]}
 									/>
 								}
 								label="I agree to Meta Exchange's Term of Use"
@@ -162,7 +162,7 @@ const styles = {
 	marginDense: {
 		marginTop: 0,
 		marginBottom: 5,
-	}
+	},
 };
 
 export default withStyles(styles)(Signup);

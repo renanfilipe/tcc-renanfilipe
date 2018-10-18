@@ -3,7 +3,8 @@ import Logo from './Logo';
 import TextField from "@material-ui/core/TextField/TextField";
 import Button from "@material-ui/core/Button/Button";
 import { Accounts } from "meteor/accounts-base";
-import {withStyles} from "@material-ui/core/styles";
+import { withStyles } from "@material-ui/core/styles";
+import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
 
 class RecoverPassword extends Component{
 	constructor(props){
@@ -19,7 +20,7 @@ class RecoverPassword extends Component{
 		});
 	};
 
-	onSubmit = (event) => {
+	handleSubmit = (event) => {
 		event.preventDefault();
 
 		const email = this.state.email.trim();
@@ -41,9 +42,9 @@ class RecoverPassword extends Component{
 			<div className={classes.centerItem}>
 				<div className={classes.container}>
 					<Logo/>
-					<form className={classes.formContainer} onSubmit={this.onSubmit}>
+					<ValidatorForm className={classes.formContainer} onSubmit={this.handleSubmit}>
 						<span className={classes.boxTitle}>Recover Password</span>
-						<TextField
+						<TextValidator
 							id="email"
 							label="Email"
 							type="email"
@@ -54,6 +55,11 @@ class RecoverPassword extends Component{
 							variant="outlined"
 							value={this.state.email}
 							onChange={this.handleChange("email")}
+							validators={["required", "isEmail"]}
+							errorMessages={["This field is required", "Email is not valid"]}
+							FormHelperTextProps={{
+								className: classes.marginDense
+							}}
 						/>
 						<div className={classes.buttonContainer}>
 							<Button
@@ -69,7 +75,7 @@ class RecoverPassword extends Component{
 								Submit
 							</Button>
 						</div>
-					</form>
+					</ValidatorForm>
 				</div>
 			</div>
 		);
@@ -102,6 +108,10 @@ const styles = {
 	},
 	buttonContainer: {
 		justifyContent: "space-between",
+	},
+	marginDense: {
+		marginTop: 0,
+		marginBottom: 5,
 	},
 };
 
