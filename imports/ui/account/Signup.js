@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import Logo from "./Logo";
+import Logo from "../others/Logo";
 import Button from "@material-ui/core/Button/Button";
 import Checkbox from "@material-ui/core/Checkbox";
 import FormGroup from "@material-ui/core/FormGroup";
@@ -37,7 +37,21 @@ class Signup extends Component{
 	};
 
 	handleSubmit = () => {
-		console.log("submit");
+		if (!this.state.checkBox) {
+			this.props.snackBar("You must agree with Meta Exchange's Term of Use.", "warning");
+			return;
+		}
+
+		const email = this.state.email.trim();
+		const password = this.state.password.trim();
+
+		Accounts.createUser({email, password}, (err) => {
+			if (err) {
+				this.props.snackBar(`Error: ${err.reason}`, "danger");
+			} else {
+				this.props.snackBar("Account created successfully.", "success");
+			}
+		});
 	};
 
 	render() {
@@ -105,7 +119,7 @@ class Signup extends Component{
 										onChange={this.handleCheckBox}
 										value="checkBox"
 										validators={["isPositive"]}
-										errorMessages={["You must agree with our terms"]}
+										// errorMessages={["You must agree with our terms"]}
 									/>
 								}
 								label="I agree to Meta Exchange's Term of Use"

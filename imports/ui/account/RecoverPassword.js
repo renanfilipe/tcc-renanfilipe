@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import Logo from './Logo';
+import Logo from '../others/Logo';
 import TextField from "@material-ui/core/TextField/TextField";
 import Button from "@material-ui/core/Button/Button";
 import { Accounts } from "meteor/accounts-base";
@@ -24,10 +24,6 @@ class RecoverPassword extends Component{
 		event.preventDefault();
 
 		const email = this.state.email.trim();
-
-		if (!email){
-			return;
-		}
 
 		Accounts.forgotPassword({ email } , (error) => {
 			this.props.snackBar("We have sent a confirmation email to your registered email address. " +
