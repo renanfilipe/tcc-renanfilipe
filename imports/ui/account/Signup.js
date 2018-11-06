@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import Logo from "../others/Logo";
+import Logo from "./Logo";
 import Button from "@material-ui/core/Button/Button";
 import Checkbox from "@material-ui/core/Checkbox";
 import FormGroup from "@material-ui/core/FormGroup";

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Logo from '../others/Logo';
+import Logo from './Logo';
 import Button from '@material-ui/core/Button';
 import { Meteor } from "meteor/meteor";
 import { withStyles } from "@material-ui/core/styles";

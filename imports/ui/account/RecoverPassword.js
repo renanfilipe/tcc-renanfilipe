@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import Logo from '../others/Logo';
+import Logo from './Logo';
 import TextField from "@material-ui/core/TextField/TextField";
 import Button from "@material-ui/core/Button/Button";
 import { Accounts } from "meteor/accounts-base";

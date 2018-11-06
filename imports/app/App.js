@@ -74,6 +74,11 @@ const App = props => {
 									exact
 									render={()=> onEnterPrivatePage(MarketContainer, context, props)}
 								/>
+                                <Route
+                                    path="/market/:view"
+                                    exact
+                                    render={()=> onEnterPrivatePage(MarketContainer, context, props)}
+                                />
 								<Route
 									path="/"
 									exact

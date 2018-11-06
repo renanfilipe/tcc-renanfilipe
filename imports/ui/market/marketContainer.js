@@ -1,15 +1,17 @@
 import React from 'react';
+import AppBar from "../others/NavBar";
 import { withStyles } from '@material-ui/core/styles';
-import AppBar from "../others/AppBar";
+import { withRouter } from "react-router-dom";
+
 
 const styles = {
 
 };
 
-const marketContainer = () => {
+const marketContainer = (props) => {
 	return (
-		<AppBar />
+		<AppBar {...props}/>
 	)
 };
 
-export default withStyles(styles)(marketContainer);
+export default withRouter(withStyles(styles)(marketContainer));
