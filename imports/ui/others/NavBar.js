@@ -14,8 +14,7 @@ const logo = '/images/whiteLogo.png';
 
 const styles = {
     root: {
-        flexGrow: 1,
-		height: 62
+		height: 62,
     },
     grow: {
         flexGrow: 1,
@@ -74,24 +73,28 @@ class ButtonAppBar extends React.Component {
                         <Button
                             {...this.renderFocusedButton("market")}
                             color="inherit"
+                            href="/market"
                         >
                             Market
                         </Button>
                         <Button
                             {...this.renderFocusedButton("balance")}
                             color="inherit"
+                            href="/balance"
                         >
                             Balance
                         </Button>
                         <Button
                             {...this.renderFocusedButton("orders")}
                             color="inherit"
+                            href="/orders"
                         >
                             Orders
                         </Button>
                         <Button
-                            {...this.renderFocusedButton("api Keys")}
+                            {...this.renderFocusedButton("apikeys")}
                             color="inherit"
+                            href="/apikeys"
                         >
                             API Keys
                         </Button>

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import SnackBar from '../ui/others/MySnackbar';
+import SnackBar from '../../ui/others/MySnackbar';
 
 export const AppContext = React.createContext();
 

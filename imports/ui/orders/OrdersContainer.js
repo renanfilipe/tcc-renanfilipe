@@ -3,15 +3,14 @@ import AppBar from "../others/NavBar";
 import { withStyles } from '@material-ui/core/styles';
 import { withRouter } from "react-router-dom";
 
-
 const styles = {
 
 };
 
-const marketContainer = (props) => {
+const OrdersContainer = (props) => {
 	return (
 		<AppBar {...props}/>
 	)
 };
 
-export default withRouter(withStyles(styles)(marketContainer));
+export default withRouter(withStyles(styles)(OrdersContainer));
