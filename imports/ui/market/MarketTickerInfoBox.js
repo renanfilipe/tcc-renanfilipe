@@ -10,13 +10,13 @@ import TableRow from '@material-ui/core/TableRow';
 
 const styles = {
     root: {
-        // height: 200,
-        // width: 200,
-        padding: 10,
-        // backgroundColor: "#f5f5f5"
+	      padding: "0px 10px 10px 9px",
+	      flexDirection: "column",
+	      minWidth: 220,
+				height: 168,
     },
-    table: {
-        minWidth: 700,
+    tableRow: {
+			height: 25,
     },
 };
 
@@ -26,47 +26,37 @@ function createData(name, calories, fat, carbs, protein) {
     return { id, name, calories, fat, carbs, protein };
 }
 
-const rows = [
-    createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-    createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-    createData('Eclair', 262, 16.0, 24, 6.0),
-    createData('Cupcake', 305, 3.7, 67, 4.3),
-    createData('Gingerbread', 356, 16.0, 49, 3.9),
-];
-
 const MarketTickerInfoBox = (props) => {
     const { classes } = props;
 
     return (
         <div>
             <Paper className={classes.root} elevation={5}>
-                <Typography variant="h4">
+                <Typography variant="h6">
                     BTC/USDT
                 </Typography>
-                <Table className={classes.table}>
-                    <TableHead>
-                        <TableRow>
-                            <TableCell>Dessert (100g serving)</TableCell>
-                            <TableCell numeric>Calories</TableCell>
-                            <TableCell numeric>Fat (g)</TableCell>
-                            <TableCell numeric>Carbs (g)</TableCell>
-                            <TableCell numeric>Protein (g)</TableCell>
-                        </TableRow>
-                    </TableHead>
+                <Table className={classes.table} padding="checkbox">
                     <TableBody>
-                        {rows.map(row => {
-                            return (
-                                <TableRow key={row.id}>
-                                    <TableCell component="th" scope="row">
-                                        {row.name}
-                                    </TableCell>
-                                    <TableCell numeric>{row.calories}</TableCell>
-                                    <TableCell numeric>{row.fat}</TableCell>
-                                    <TableCell numeric>{row.carbs}</TableCell>
-                                    <TableCell numeric>{row.protein}</TableCell>
-                                </TableRow>
-                            );
-                        })}
+	                      <TableRow classes={{root: classes.tableRow}}>
+	                          <TableCell padding="none">Last Price</TableCell>
+	                          <TableCell padding="none" numeric>8000.00</TableCell>
+	                      </TableRow>
+		                    <TableRow classes={{root: classes.tableRow}}>
+				                    <TableCell padding="none">24h Change</TableCell>
+				                    <TableCell padding="none" numeric>0.5%</TableCell>
+		                    </TableRow>
+		                    <TableRow classes={{root: classes.tableRow}}>
+				                    <TableCell padding="none">24h High</TableCell>
+				                    <TableCell padding="none" numeric>7950.00</TableCell>
+		                    </TableRow>
+		                    <TableRow classes={{root: classes.tableRow}}>
+				                    <TableCell padding="none">24h Low</TableCell>
+				                    <TableCell padding="none" numeric>7900.00</TableCell>
+		                    </TableRow>
+		                    <TableRow classes={{root: classes.tableRow}}>
+				                    <TableCell padding="none">24h Volume</TableCell>
+				                    <TableCell padding="none" numeric>12,500,000.10 USDT</TableCell>
+		                    </TableRow>
                     </TableBody>
                 </Table>
             </Paper>
