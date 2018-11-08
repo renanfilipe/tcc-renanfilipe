@@ -5,12 +5,11 @@ import { withStyles } from "@material-ui/core/styles";
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 
 const styles = {
     root: {
-	      padding: "0px 10px 10px 9px",
+	      padding: "10px 10px 10px 9px",
 	      flexDirection: "column",
 	      minWidth: 220,
 				height: 168,
@@ -20,19 +19,13 @@ const styles = {
     },
 };
 
-let id = 0;
-function createData(name, calories, fat, carbs, protein) {
-    id += 1;
-    return { id, name, calories, fat, carbs, protein };
-}
-
 const MarketTickerInfoBox = (props) => {
     const { classes } = props;
 
     return (
         <div>
-            <Paper className={classes.root} elevation={5}>
-                <Typography variant="h6">
+            <Paper className={classes.root} elevation={3}>
+                <Typography variant="p">
                     BTC/USDT
                 </Typography>
                 <Table className={classes.table} padding="checkbox">

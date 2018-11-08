@@ -5,17 +5,17 @@ import { withRouter } from "react-router-dom";
 import Tab from "@material-ui/core/Tab/Tab";
 import Tabs from "@material-ui/core/Tabs/Tabs";
 import MarketTickerInfoBox from "./MarketTickerInfoBox";
+import MarketBalanceBox from "./MarketBalanceBox";
 
 const styles = {
     flexContainer: {
         boxShadow: "0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12)",
-		flexGrow: 1
+		flexGrow: 1,
 	},
 	tabs : {
         marginTop: 64,
         height: 54,
         backgroundColor: "#f5f5f5",
-        // backgroundColor: "white",
         position: "fixed",
 		width: "100%",
 	},
@@ -24,15 +24,18 @@ const styles = {
 	},
 	tabSelected: {
     	backgroundColor: "white",
-    	// backgroundColor: "#f5f5f5",
 	},
 	container: {
     	backgroundColor: "white",
-    	// backgroundColor: "#f5f5f5",
         marginTop: 118,
 		width: "100%",
         padding: 15,
+		flexDirection: "column",
 	},
+	separator: {
+		maxHeight: 10,
+		flexGrow: 1,
+	}
 };
 
 class MarketContainer extends React.Component {
@@ -84,6 +87,8 @@ class MarketContainer extends React.Component {
 				</Tabs>
 				<div className={classes.container}>
 					<MarketTickerInfoBox/>
+					<div className={classes.separator}/>
+					<MarketBalanceBox/>
 				</div>
             </div>
 		)
