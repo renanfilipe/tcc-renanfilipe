@@ -6,6 +6,7 @@ import Tab from "@material-ui/core/Tab/Tab";
 import Tabs from "@material-ui/core/Tabs/Tabs";
 import MarketTickerInfoBox from "./MarketTickerInfoBox";
 import MarketBalanceBox from "./MarketBalanceBox";
+import MarketTickerListBox from "./MarketTickerListBox";
 
 class MarketContainer extends React.Component {
     handleTabChange = (event, activeTab) => {
@@ -55,9 +56,16 @@ class MarketContainer extends React.Component {
                     />
                 </Tabs>
                 <div className={classes.container}>
-                    <MarketTickerInfoBox/>
-                    <div className={classes.separator}/>
-                    <MarketBalanceBox/>
+                    <div style={{
+                        flexDirection: "column",
+                        height: 454,
+                        width: 220,
+                    }}>
+                        <MarketTickerInfoBox/>
+                        <div className={classes.separator}/>
+                        <MarketBalanceBox/>
+                    </div>
+                    <MarketTickerListBox/>
                 </div>
             </div>
         )
@@ -87,7 +95,6 @@ const styles = {
         marginTop: 118,
         width: "100%",
         padding: 15,
-        flexDirection: "column",
     },
     separator: {
         maxHeight: 20,
