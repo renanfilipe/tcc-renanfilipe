@@ -65,7 +65,9 @@ class MarketContainer extends React.Component {
                         <div className={classes.separator}/>
                         <MarketBalanceBox/>
                     </div>
-                    <MarketTickerListBox/>
+	                <div style={{marginLeft: 20}}>
+		                <MarketTickerListBox/>
+	                </div>
                 </div>
             </div>
         )

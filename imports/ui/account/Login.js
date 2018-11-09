@@ -4,6 +4,7 @@ import Button from "@material-ui/core/Button";
 import {Meteor} from "meteor/meteor";
 import {withStyles} from "@material-ui/core/styles";
 import {TextValidator, ValidatorForm} from "react-material-ui-form-validator";
+import {withRouter} from "react-router-dom";
 
 class Login extends Component {
     handleChange = name => event => {
@@ -21,6 +22,9 @@ class Login extends Component {
         Meteor.loginWithPassword({email}, password, (err) => {
             if (err) {
                 this.props.snackBar("Unable to login. Check email and password.", "danger");
+            } else {
+	            this.props.snackBar("Logged successfully.", "success");
+	            this.props.history.push("/market");
             }
         });
     };
@@ -139,4 +143,4 @@ const styles = {
     },
 };
 
-export default withStyles(styles)(Login);
+export default withRouter(withStyles(styles)(Login));

@@ -7,71 +7,127 @@ import TableCell from "@material-ui/core/TableCell";
 import TableRow from "@material-ui/core/TableRow";
 import Tab from "@material-ui/core/Tab/Tab";
 import Tabs from "@material-ui/core/Tabs/Tabs";
+import TableHead from "@material-ui/core/TableHead";
 
 class MarketTickerListBox extends React.Component {
+	handleTabChange = (event, activeTab) => {
+		this.setState({activeTab});
+	};
+
     constructor(props) {
         super(props);
         this.state = {
-            activeTab: "binance",
+            activeTab: "usdt",
         }
     }
 
     render() {
-        const {classes} = props;
+        const {classes} = this.props;
+		const {activeTab} = this.state;
 
         return (
             <Paper className={classes.root} elevation={3}>
                 <Tabs
                     value={activeTab}
                     onChange={this.handleTabChange}
-                    classes={{
-                        flexContainer: classes.flexContainer,
-                        indicator: classes.tabsIndicator
-                    }}
-                    className={classes.tabs}
                     indicatorColor="primary"
+                    // classes={{flexContainer: classes.tabsRoot}}
+                    // scrollButtons={"off"}
+                    // scrollable={false}
+                    fullWidth
                 >
                     <Tab
-                        label="Binance"
-                        value="binance"
-                        classes={{selected: classes.tabSelected}}
-                        style={{maxWidth: 160}}
+                        label="BTC"
+                        value="btc"
+
                     />
                     <Tab
-                        label="Bitfinex"
-                        value="bitfinex"
-                        classes={{selected: classes.tabSelected}}
-                        style={{maxWidth: 160}}
+                        label="ETH"
+                        value="eth"
                     />
                     <Tab
-                        label="Poloniex"
-                        value="poloniex"
-                        classes={{selected: classes.tabSelected}}
-                        style={{maxWidth: 160}}
+                        label="BNB"
+                        value="bnb"
                     />
+	                <Tab
+		                label="USDT"
+		                value="usdt"
+	                />
                 </Tabs>
                 <Table className={classes.table} padding="checkbox">
+	                <TableHead>
+		                <TableRow classes={{root: classes.tableRow}}>
+			                <TableCell padding="none">Pair</TableCell>
+			                <TableCell padding="none" numeric>Price</TableCell>
+			                <TableCell padding="none" numeric style={{width: 60}}>Change</TableCell>
+		                </TableRow>
+	                </TableHead>
                     <TableBody>
                         <TableRow classes={{root: classes.tableRow}}>
-                            <TableCell padding="none">Last Price</TableCell>
-                            <TableCell padding="none" numeric>8000.00</TableCell>
+                            <TableCell padding="none">ADA/USDT</TableCell>
+                            <TableCell padding="none" numeric>0.07502</TableCell>
+                            <TableCell padding="none" numeric>-3.98%</TableCell>
                         </TableRow>
-                        <TableRow classes={{root: classes.tableRow}}>
-                            <TableCell padding="none">24h Change</TableCell>
-                            <TableCell padding="none" numeric>0.5%</TableCell>
-                        </TableRow>
-                        <TableRow classes={{root: classes.tableRow}}>
-                            <TableCell padding="none">24h High</TableCell>
-                            <TableCell padding="none" numeric>7950.00</TableCell>
-                        </TableRow>
-                        <TableRow classes={{root: classes.tableRow}}>
-                            <TableCell padding="none">24h Low</TableCell>
-                            <TableCell padding="none" numeric>7900.00</TableCell>
-                        </TableRow>
-                        <TableRow classes={{root: classes.tableRow}}>
-                            <TableCell padding="none">24h Volume</TableCell>
-                            <TableCell padding="none" numeric>12,500,000.10 USDT</TableCell>
-                        </TableRow>
+	                    <TableRow classes={{root: classes.tableRow}}>
+		                    <TableCell padding="none">BCC/USDT</TableCell>
+		                    <TableCell padding="none" numeric>0.07502</TableCell>
+		                    <TableCell padding="none" numeric>-3.98%</TableCell>
+	                    </TableRow>
+	                    <TableRow classes={{root: classes.tableRow}}>
+		                    <TableCell padding="none">BNB/USDT</TableCell>
+		                    <TableCell padding="none" numeric>0.07502</TableCell>
+		                    <TableCell padding="none" numeric>-3.98%</TableCell>
+	                    </TableRow>
+	                    <TableRow classes={{root: classes.tableRow}}>
+		                    <TableCell padding="none">BTC/USDT</TableCell>
+		                    <TableCell padding="none" numeric>0.07502</TableCell>
+		                    <TableCell padding="none" numeric>-3.98%</TableCell>
+	                    </TableRow>
+	                    <TableRow classes={{root: classes.tableRow}}>
+		                    <TableCell padding="none">EOS/USDT</TableCell>
+		                    <TableCell padding="none" numeric>0.07502</TableCell>
+		                    <TableCell padding="none" numeric>-3.98%</TableCell>
+	                    </TableRow>
+	                    <TableRow classes={{root: classes.tableRow}}>
+		                    <TableCell padding="none">ETC/USDT</TableCell>
+		                    <TableCell padding="none" numeric>0.07502</TableCell>
+		                    <TableCell padding="none" numeric>-3.98%</TableCell>
+	                    </TableRow>
+	                    <TableRow classes={{root: classes.tableRow}}>
+		                    <TableCell padding="none">ETH/USDT</TableCell>
+		                    <TableCell padding="none" numeric>0.07502</TableCell>
+		                    <TableCell padding="none" numeric>-3.98%</TableCell>
+	                    </TableRow>
+	                    <TableRow classes={{root: classes.tableRow}}>
+		                    <TableCell padding="none">ICX/USDT</TableCell>
+		                    <TableCell padding="none" numeric>0.07502</TableCell>
+		                    <TableCell padding="none" numeric>-3.98%</TableCell>
+	                    </TableRow>
+	                    <TableRow classes={{root: classes.tableRow}}>
+		                    <TableCell padding="none">IOTA/USDT</TableCell>
+		                    <TableCell padding="none" numeric>0.07502</TableCell>
+		                    <TableCell padding="none" numeric>-3.98%</TableCell>
+	                    </TableRow>
+	                    <TableRow classes={{root: classes.tableRow}}>
+		                    <TableCell padding="none">LTC/USDT</TableCell>
+		                    <TableCell padding="none" numeric>0.07502</TableCell>
+		                    <TableCell padding="none" numeric>-3.98%</TableCell>
+	                    </TableRow>
+	                    <TableRow classes={{root: classes.tableRow}}>
+		                    <TableCell padding="none">NEO/USDT</TableCell>
+		                    <TableCell padding="none" numeric>0.07502</TableCell>
+		                    <TableCell padding="none" numeric>-3.98%</TableCell>
+	                    </TableRow>
+	                    <TableRow classes={{root: classes.tableRow}}>
+		                    <TableCell padding="none">NULS/USDT</TableCell>
+		                    <TableCell padding="none" numeric>0.07502</TableCell>
+		                    <TableCell padding="none" numeric>-3.98%</TableCell>
+	                    </TableRow>
+	                    <TableRow classes={{root: classes.tableRow}}>
+		                    <TableCell padding="none">ONT/USDT</TableCell>
+		                    <TableCell padding="none" numeric>00.07502000</TableCell>
+		                    <TableCell padding="none" numeric>-3.98%</TableCell>
+	                    </TableRow>
                     </TableBody>
                 </Table>
             </Paper>
@@ -84,12 +140,20 @@ const styles = {
     root: {
         padding: "10px 10px 10px 9px",
         flexDirection: "column",
-        minWidth: 220,
-        height: 453,
+        width: 260,
+        height: 454,
     },
     tableRow: {
         height: 25,
     },
+	tabsRoot: {
+		// maxWidth: 245,
+	},
+	tabRoot: {
+		// width: "auto",
+		// minWidth: "auto",
+		// minHeight: "auto",
+	}
 };
 
 export default withStyles(styles)(MarketTickerListBox);

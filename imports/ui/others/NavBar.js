@@ -9,6 +9,8 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import HelpOutline from "@material-ui/icons/HelpOutline";
+import {Meteor} from 'meteor/meteor'
+import {withRouter} from "react-router-dom";
 
 const logo = "/images/whiteLogo.png";
 
@@ -19,6 +21,15 @@ class ButtonAppBar extends React.Component {
 
     handleClose = () => {
         this.setState({anchorEl: null});
+    };
+
+    handleLogout = () => {
+	    Meteor.logout(err => {
+	    	if (!err) {
+			    this.props.snackBar("Logged out successfully.", "success");
+			    this.props.history.push("/");
+		    }
+	    });
     };
 
     renderFocusedButton = (buttonName) => {
@@ -104,7 +115,7 @@ class ButtonAppBar extends React.Component {
                                 onClose={this.handleClose}
                             >
                                 <MenuItem onClick={this.handleClose}>My account</MenuItem>
-                                <MenuItem onClick={this.handleClose}>Logout</MenuItem>
+                                <MenuItem onClick={this.handleLogout}>Logout</MenuItem>
                             </Menu>
                         </div>
                     </Toolbar>
@@ -131,4 +142,4 @@ const styles = {
     },
 };
 
-export default withStyles(styles)(ButtonAppBar);
+export default withRouter(withStyles(styles)(ButtonAppBar));
