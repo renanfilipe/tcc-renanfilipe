@@ -1,16 +1,14 @@
-import React from 'react';
+import React from "react";
 import NavBar from "../others/NavBar";
-import { withStyles } from '@material-ui/core/styles';
-import { withRouter } from "react-router-dom";
+import {withStyles} from "@material-ui/core/styles";
+import {withRouter} from "react-router-dom";
 
-const styles = {
-
-};
+const styles = {};
 
 const BalanceContainer = (props) => {
-	return (
-		<NavBar {...props}/>
-	)
+    return (
+        <NavBar {...props}/>
+    )
 };
 
 export default withRouter(withStyles(styles)(BalanceContainer));

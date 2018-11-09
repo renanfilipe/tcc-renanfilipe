@@ -8,18 +8,14 @@ import OrdersContainer from "../../ui/orders/OrdersContainer";
 import ApiKeysContainer from "../../ui/apiKeys/ApiKeysContainer";
 import Login from "../../ui/account/Login";
 import NotFound from "../../ui/others/NotFound";
-import { createBrowserHistory } from "history";
+import {createBrowserHistory} from "history";
 
 const browserHistory = createBrowserHistory();
 
 class Routes extends React.Component {
-    constructor (props) {
-        super(props);
-    }
-
     onEnterPublicPage = (Component) => {
         if (Meteor.userId()) {
-            return <Redirect to="/market" />
+            return <Redirect to="/market"/>
         } else {
             return <Component {...this.props} />
         }
@@ -27,11 +23,15 @@ class Routes extends React.Component {
 
     onEnterPrivatePage = (Component) => {
         if (!Meteor.userId()) {
-            return <Redirect to="/" />
+            return <Redirect to="/"/>
         } else {
             return <Component {...this.props} />
         }
     };
+
+    constructor(props) {
+        super(props);
+    }
 
     render() {
         return (
@@ -41,41 +41,41 @@ class Routes extends React.Component {
                         <Route
                             path="/signup"
                             exact
-                            render={()=> this.onEnterPublicPage(Signup)}
+                            render={() => this.onEnterPublicPage(Signup)}
                         />
                         <Route
                             path="/recover-password"
                             exact
-                            render={()=> this.onEnterPublicPage(RecoverPassword)}
+                            render={() => this.onEnterPublicPage(RecoverPassword)}
                         />
                         <Route
                             path="/market"
                             exact
-                            render={()=> this.onEnterPrivatePage(MarketContainer)}
+                            render={() => this.onEnterPrivatePage(MarketContainer)}
                         />
                         <Route
                             path="/balance"
                             exact
-                            render={()=> this.onEnterPrivatePage(BalanceContainer)}
+                            render={() => this.onEnterPrivatePage(BalanceContainer)}
                         />
                         <Route
                             path="/orders"
                             exact
-                            render={()=> this.onEnterPrivatePage(OrdersContainer)}
+                            render={() => this.onEnterPrivatePage(OrdersContainer)}
                         />
                         <Route
                             path="/apikeys"
                             exact
-                            render={()=> this.onEnterPrivatePage(ApiKeysContainer)}
+                            render={() => this.onEnterPrivatePage(ApiKeysContainer)}
                         />
                         <Route
                             path="/"
                             exact
-                            render={()=> this.onEnterPublicPage(Login)}
+                            render={() => this.onEnterPublicPage(Login)}
                         />
                         <Route
                             path="*"
-                            render={()=> <NotFound {...props}/>}
+                            render={() => <NotFound {...props}/>}
                         />
                     </Switch>
                 </div>
