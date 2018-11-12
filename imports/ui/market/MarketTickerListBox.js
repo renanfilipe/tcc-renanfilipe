@@ -31,33 +31,48 @@ class MarketTickerListBox extends React.Component {
                     value={activeTab}
                     onChange={this.handleTabChange}
                     indicatorColor="primary"
-                    // classes={{flexContainer: classes.tabsRoot}}
-                    // scrollButtons={"off"}
-                    // scrollable={false}
-                    fullWidth
+                    classes={{
+                        flexContainer: classes.tabsRoot,
+                        root: classes.tabsRoot,
+                    }}
                 >
                     <Tab
                         label="BTC"
                         value="btc"
-
+                        classes={{
+                            root: classes.tabRoot,
+                            labelContainer: classes.tabLabel,
+                        }}
                     />
                     <Tab
                         label="ETH"
                         value="eth"
+                        classes={{
+                            root: classes.tabRoot,
+                            labelContainer: classes.tabLabel,
+                        }}
                     />
                     <Tab
                         label="BNB"
                         value="bnb"
+                        classes={{
+                            root: classes.tabRoot,
+                            labelContainer: classes.tabLabel,
+                        }}
                     />
 	                <Tab
 		                label="USDT"
 		                value="usdt"
+                        classes={{
+                            root: classes.tabRoot,
+                            labelContainer: classes.tabLabel,
+                        }}
 	                />
                 </Tabs>
                 <Table className={classes.table} padding="checkbox">
 	                <TableHead>
 		                <TableRow classes={{root: classes.tableRow}}>
-			                <TableCell padding="none">Pair</TableCell>
+			                <TableCell padding="none" style={{width: 100}}>Pair</TableCell>
 			                <TableCell padding="none" numeric>Price</TableCell>
 			                <TableCell padding="none" numeric style={{width: 60}}>Change</TableCell>
 		                </TableRow>
@@ -128,6 +143,26 @@ class MarketTickerListBox extends React.Component {
 		                    <TableCell padding="none" numeric>00.07502000</TableCell>
 		                    <TableCell padding="none" numeric>-3.98%</TableCell>
 	                    </TableRow>
+                        <TableRow classes={{root: classes.tableRow}}>
+                            <TableCell padding="none">ADA/USDT</TableCell>
+                            <TableCell padding="none" numeric>0.07502</TableCell>
+                            <TableCell padding="none" numeric>-3.98%</TableCell>
+                        </TableRow>
+                        <TableRow classes={{root: classes.tableRow}}>
+                            <TableCell padding="none">BCC/USDT</TableCell>
+                            <TableCell padding="none" numeric>0.07502</TableCell>
+                            <TableCell padding="none" numeric>-3.98%</TableCell>
+                        </TableRow>
+                        <TableRow classes={{root: classes.tableRow}}>
+                            <TableCell padding="none">BNB/USDT</TableCell>
+                            <TableCell padding="none" numeric>0.07502</TableCell>
+                            <TableCell padding="none" numeric>-3.98%</TableCell>
+                        </TableRow>
+                        <TableRow classes={{root: classes.tableRow}}>
+                            <TableCell padding="none">BTC/USDT</TableCell>
+                            <TableCell padding="none" numeric>0.07502</TableCell>
+                            <TableCell padding="none" numeric>-3.98%</TableCell>
+                        </TableRow>
                     </TableBody>
                 </Table>
             </Paper>
@@ -140,20 +175,32 @@ const styles = {
     root: {
         padding: "10px 10px 10px 9px",
         flexDirection: "column",
-        width: 260,
+        width: 280,
         height: 454,
+    },
+    table: {
+        overflowY: "scroll",
+        display: "block",
+        height: "calc(100% - 3px)",
     },
     tableRow: {
         height: 25,
     },
 	tabsRoot: {
-		// maxWidth: 245,
+        display: "inline-flex",
+        minHeight: "auto",
+        height: 27,
 	},
 	tabRoot: {
-		// width: "auto",
-		// minWidth: "auto",
-		// minHeight: "auto",
-	}
+		width: "50px",
+		minWidth: "auto",
+		minHeight: "auto",
+        height: "auto",
+	},
+    tabLabel: {
+        paddingLeft: 0,
+        paddingRight: 0,
+    },
 };
 
 export default withStyles(styles)(MarketTickerListBox);

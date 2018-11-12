@@ -7,6 +7,8 @@ import Tabs from "@material-ui/core/Tabs/Tabs";
 import MarketTickerInfoBox from "./MarketTickerInfoBox";
 import MarketBalanceBox from "./MarketBalanceBox";
 import MarketTickerListBox from "./MarketTickerListBox";
+import MarketGraphBox from "./MarketGraphBox";
+import MarketOrdersBox from "./MarketOrdersBox";
 
 class MarketContainer extends React.Component {
     handleTabChange = (event, activeTab) => {
@@ -17,11 +19,12 @@ class MarketContainer extends React.Component {
         super(props);
         this.state = {
             activeTab: "binance",
+            activeTicker: "ethusdt",
         }
     }
 
     render() {
-        const {activeTab} = this.state;
+        const {activeTab, activeTicker} = this.state;
         const {classes} = this.props;
         return (
             <div style={{flexGrow: 1}}>
@@ -68,6 +71,9 @@ class MarketContainer extends React.Component {
 	                <div style={{marginLeft: 20}}>
 		                <MarketTickerListBox/>
 	                </div>
+                    <div style={{marginLeft: 20, width: "100%"}}>
+                        <MarketGraphBox exchange={activeTab} ticker={activeTicker}/>
+                    </div>
                 </div>
             </div>
         )
@@ -94,9 +100,10 @@ const styles = {
     },
     container: {
         backgroundColor: "white",
-        marginTop: 118,
         width: "100%",
         padding: 15,
+        maxWidth: 1440,
+        margin: "118px auto 0",
     },
     separator: {
         maxHeight: 20,
