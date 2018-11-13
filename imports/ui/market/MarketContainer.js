@@ -67,7 +67,7 @@ class MarketContainer extends React.Component {
                         <MarketTickerListBox/>
                         <MarketGraphBox exchange={activeTab} ticker={activeTicker}/>
                     </div>
-                    <div>
+                    <div className={classes.flexRow2}>
                         <MarketOrdersBox/>
                     </div>
                 </div>
@@ -110,6 +110,9 @@ const styles = {
     flexRow1: {
         flexDirection: "row",
         justifyContent: "space-between",
+    },
+    flexRow2: {
+        marginTop: 20,
     }
 };
 
