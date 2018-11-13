@@ -59,20 +59,16 @@ class MarketContainer extends React.Component {
                     />
                 </Tabs>
                 <div className={classes.container}>
-                    <div style={{
-                        flexDirection: "column",
-                        height: 454,
-                        width: 220,
-                    }}>
-                        <MarketTickerInfoBox/>
-                        <div className={classes.separator}/>
-                        <MarketBalanceBox/>
-                    </div>
-	                <div style={{marginLeft: 20}}>
-		                <MarketTickerListBox/>
-	                </div>
-                    <div style={{marginLeft: 20, width: "100%"}}>
+                    <div className={classes.flexRow1}>
+                        <div className={classes.flexItem1}>
+                            <MarketTickerInfoBox/>
+                            <MarketBalanceBox/>
+                        </div>
+                        <MarketTickerListBox/>
                         <MarketGraphBox exchange={activeTab} ticker={activeTicker}/>
+                    </div>
+                    <div>
+                        <MarketOrdersBox/>
                     </div>
                 </div>
             </div>
@@ -104,10 +100,16 @@ const styles = {
         padding: 15,
         maxWidth: 1440,
         margin: "118px auto 0",
+        flexDirection: "column",
     },
-    separator: {
-        maxHeight: 20,
-        flexGrow: 1,
+    flexItem1: {
+        flexDirection: "column",
+        height: 454,
+        justifyContent: "space-between",
+    },
+    flexRow1: {
+        flexDirection: "row",
+        justifyContent: "space-between",
     }
 };
 

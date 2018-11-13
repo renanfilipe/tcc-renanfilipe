@@ -175,7 +175,7 @@ const styles = {
     root: {
         padding: "10px 10px 10px 9px",
         flexDirection: "column",
-        width: 280,
+        minWidth: 280,
         height: 454,
     },
     table: {
