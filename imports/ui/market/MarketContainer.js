@@ -4,27 +4,34 @@ import {withStyles} from "@material-ui/core/styles";
 import {withRouter} from "react-router-dom";
 import Tab from "@material-ui/core/Tab/Tab";
 import Tabs from "@material-ui/core/Tabs/Tabs";
-import MarketTickerInfoBox from "./MarketTickerInfoBox";
-import MarketBalanceBox from "./MarketBalanceBox";
-import MarketTickerListBox from "./MarketTickerListBox";
-import MarketGraphBox from "./MarketGraphBox";
-import MarketOrdersBox from "./MarketOrdersBox";
+import TickerInfoContainer from "./TickerInfoBox";
+import MarketBalanceBox from "./BalanceBox";
+import MarketTickerListBox from "./TickerListBox";
+import MarketGraphBox from "./GraphBox";
+import MarketOrdersBox from "./OrdersBox";
+import MarketOrderFormBox from "./OrderFormBox";
 
 class MarketContainer extends React.Component {
     handleTabChange = (event, activeTab) => {
         this.setState({activeTab});
     };
 
+    handleTickerChange = (activeTicker) => {
+        this.setState(activeTicker)
+    };
+
     constructor(props) {
         super(props);
         this.state = {
-            activeTab: "binance",
-            activeTicker: "ethusdt",
+            activeTab: "BINANCE",
+            activeTicker: "ETHUSDT",
+            coin: "ETH",
+            pair: "USDT",
         }
     }
 
     render() {
-        const {activeTab, activeTicker} = this.state;
+        const {activeTab, activeTicker, coin, pair} = this.state;
         const {classes} = this.props;
         return (
             <div style={{flexGrow: 1}}>
@@ -41,19 +48,19 @@ class MarketContainer extends React.Component {
                 >
                     <Tab
                         label="Binance"
-                        value="binance"
+                        value="BINANCE"
                         classes={{selected: classes.tabSelected}}
                         style={{maxWidth: 160}}
                     />
                     <Tab
                         label="Bitfinex"
-                        value="bitfinex"
+                        value="BITFINEX"
                         classes={{selected: classes.tabSelected}}
                         style={{maxWidth: 160}}
                     />
                     <Tab
                         label="Poloniex"
-                        value="poloniex"
+                        value="POLONIEX"
                         classes={{selected: classes.tabSelected}}
                         style={{maxWidth: 160}}
                     />
@@ -61,14 +68,22 @@ class MarketContainer extends React.Component {
                 <div className={classes.container}>
                     <div className={classes.flexRow1}>
                         <div className={classes.flexItem1}>
-                            <MarketTickerInfoBox/>
+                            <TickerInfoContainer
+                                exchange={activeTab}
+                                ticker={activeTicker}
+                                coin={coin}
+                                pair={pair}
+                            />
                             <MarketBalanceBox/>
                         </div>
-                        <MarketTickerListBox/>
+                        <MarketTickerListBox
+                            handleTickerChange
+                        />
                         <MarketGraphBox exchange={activeTab} ticker={activeTicker}/>
                     </div>
                     <div className={classes.flexRow2}>
                         <MarketOrdersBox/>
+                        <MarketOrderFormBox/>
                     </div>
                 </div>
             </div>
@@ -98,7 +113,7 @@ const styles = {
         backgroundColor: "white",
         width: "100%",
         padding: 15,
-        maxWidth: 1440,
+        maxWidth: 1370,
         margin: "118px auto 0",
         flexDirection: "column",
     },
@@ -113,6 +128,7 @@ const styles = {
     },
     flexRow2: {
         marginTop: 20,
+        justifyContent: "space-between",
     }
 };
 

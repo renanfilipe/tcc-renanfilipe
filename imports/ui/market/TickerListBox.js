@@ -9,7 +9,7 @@ import Tab from "@material-ui/core/Tab/Tab";
 import Tabs from "@material-ui/core/Tabs/Tabs";
 import TableHead from "@material-ui/core/TableHead";
 
-class MarketTickerListBox extends React.Component {
+class TickerListBox extends React.Component {
 	handleTabChange = (event, activeTab) => {
 		this.setState({activeTab});
 	};
@@ -181,7 +181,7 @@ const styles = {
     table: {
         overflowY: "scroll",
         display: "block",
-        height: "calc(100% - 3px)",
+        height: "calc(100% - 19px)",
     },
     tableRow: {
         height: 25,
@@ -203,4 +203,4 @@ const styles = {
     },
 };
 
-export default withStyles(styles)(MarketTickerListBox);
+export default withStyles(styles)(TickerListBox);
