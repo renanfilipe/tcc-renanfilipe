@@ -17,7 +17,9 @@ class MarketContainer extends React.Component {
     };
 
     handleTickerChange = (activeTicker) => {
-        this.setState(activeTicker)
+        this.setState({
+            activeTicker,
+        })
     };
 
     constructor(props) {
@@ -77,7 +79,8 @@ class MarketContainer extends React.Component {
                             <MarketBalanceBox/>
                         </div>
                         <MarketTickerListBox
-                            handleTickerChange
+                            exchange={activeTab}
+                            handleTickerChange={this.handleTickerChange}
                         />
                         <MarketGraphBox exchange={activeTab} ticker={activeTicker}/>
                     </div>

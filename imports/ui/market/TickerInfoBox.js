@@ -10,6 +10,7 @@ import {Tickers} from "../../api/mongo/collections";
 
 const TickerInfoBox = (props) => {
     const {classes, coin, pair} = props;
+
     let price = props.data && props.data.price ? props.data.price : undefined;
     let high = props.data && props.data.high ? props.data.high : undefined;
     let low = props.data && props.data.low ? props.data.low : undefined;
@@ -27,6 +28,13 @@ const TickerInfoBox = (props) => {
             volume = parseFloat(volume).toFixed(2);
     }
 
+    let changeClass;
+    if(change && change >= 0){
+        changeClass = classes.positiveChange;
+    } else if (change && change < 0) {
+        changeClass = classes.negativeChange;
+    }
+
     return (
         <Paper className={classes.root} elevation={3}>
             <span>{`${coin}/${pair}`}</span>
@@ -38,7 +46,7 @@ const TickerInfoBox = (props) => {
                     </TableRow>
                     <TableRow classes={{root: classes.tableRow}}>
                         <TableCell padding="none">24h Change</TableCell>
-                        <TableCell padding="none" numeric>{`${change}%`}</TableCell>
+                        <TableCell padding="none" numeric className={changeClass}>{`${change}%`}</TableCell>
                     </TableRow>
                     <TableRow classes={{root: classes.tableRow}}>
                         <TableCell padding="none">24h High</TableCell>
@@ -68,6 +76,12 @@ const styles = {
     tableRow: {
         height: 25,
     },
+    positiveChange: {
+        color: "green",
+    },
+    negativeChange: {
+        color: "red"
+    }
 };
 
 const TickerInfoContainer = withTracker(({exchange, ticker}) => {
