@@ -16,7 +16,7 @@ class OrderFormBox extends React.Component {
 	renderTabContent() {
 	    let result = LimitTab;
         switch(this.state.activeTab) {
-            case "distance":
+            case "limit":
                 result = LimitTab;
                 break;
             case "market":
@@ -35,7 +35,7 @@ class OrderFormBox extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            activeTab: "distance",
+            activeTab: "limit",
         }
     }
 
@@ -88,11 +88,11 @@ class OrderFormBox extends React.Component {
                 </Tabs>
                 <div className={classes.buySellContainer}>
                     <div className={classes.buySellBox}>
-                        <span>Buy BTC</span>
+                        <span className={classes.span}>Buy BTC</span>
                         <ActiveTab side={"buy"}/>
                     </div>
                     <div className={classes.buySellBox}>
-                        <span>Sell BTC</span>
+                        <span className={classes.span}>Sell BTC</span>
                         <ActiveTab side={"sell"}/>
                     </div>
                 </div>
@@ -133,13 +133,15 @@ const styles = {
     buySellBox: {
         flexDirection: "column",
         width: "46%",
-        paddingTop: 10,
     },
     sellBox: {
         justifyContent: "space-around",
         flexDirection: "column",
         padding: "0",
     },
+	span: {
+    	margin: "4px 0",
+	},
 };
 
 export default withStyles(styles)(OrderFormBox);

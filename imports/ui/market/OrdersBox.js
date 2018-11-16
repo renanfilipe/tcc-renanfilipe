@@ -59,7 +59,7 @@ const styles = {
         padding: "10px 10px 10px 9px",
         flexDirection: "column",
         minWidth: 730,
-        height: 234,
+        height: 215,
     },
     tableContainer: {
         display: "block",

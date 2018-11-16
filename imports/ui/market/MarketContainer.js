@@ -51,20 +51,26 @@ class MarketContainer extends React.Component {
                     <Tab
                         label="Binance"
                         value="BINANCE"
-                        classes={{selected: classes.tabSelected}}
-                        style={{maxWidth: 160}}
+                        classes={{
+                        	selected: classes.tabSelected,
+	                        root: classes.tabRoot
+                        }}
                     />
                     <Tab
                         label="Bitfinex"
                         value="BITFINEX"
-                        classes={{selected: classes.tabSelected}}
-                        style={{maxWidth: 160}}
+                        classes={{
+	                        selected: classes.tabSelected,
+	                        root: classes.tabRoot
+                        }}
                     />
                     <Tab
                         label="Poloniex"
                         value="POLONIEX"
-                        classes={{selected: classes.tabSelected}}
-                        style={{maxWidth: 160}}
+                        classes={{
+	                        selected: classes.tabSelected,
+	                        root: classes.tabRoot
+                        }}
                     />
                 </Tabs>
                 <div className={classes.container}>
@@ -96,19 +102,24 @@ class MarketContainer extends React.Component {
 
 const styles = {
     flexContainer: {
+	    height: 30,
         boxShadow: "0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12)",
         flexGrow: 1,
     },
     tabs: {
         marginTop: 64,
-        height: 54,
+	    minHeight: "auto",
         backgroundColor: "#f5f5f5",
         position: "fixed",
         width: "100%",
     },
     tabsIndicator: {
-        height: 6,
+        height: 4,
     },
+	tabRoot: {
+		maxWidth: 160,
+		minHeight: 30,
+	},
     tabSelected: {
         backgroundColor: "white",
     },
@@ -117,7 +128,7 @@ const styles = {
         width: "100%",
         padding: 15,
         maxWidth: 1370,
-        margin: "118px auto 0",
+        margin: "94px auto 0",
         flexDirection: "column",
     },
     flexItem1: {

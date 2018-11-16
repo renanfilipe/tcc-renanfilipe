@@ -40,9 +40,12 @@ const styles = {
         borderRadius: 0,
         borderLeftColor: "transparent",
         borderRightColor: "transparent",
-        padding: "4px 0",
+        padding: "2.5px 0",
         minHeight: "initial",
         maxHeight: 25,
+	    fontSize: "0.8125rem",
+	    textAlign: "right",
+	    fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
     },
 };
 
