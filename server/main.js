@@ -13,4 +13,11 @@ Meteor.startup(() => {
             {fields: {price: 1, high: 1, low: 1, volume: 1, change: 1}}
         );
     });
+
+    Meteor.publish('tickerList', function (exchange) {
+        return Tickers.find(
+            {exchange: exchange},
+            {fields: {symbol: 1, price: 1, change: 1}}
+        );
+    });
 });
