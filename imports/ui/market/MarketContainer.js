@@ -10,6 +10,8 @@ import MarketTickerListBox from "./TickerListBox";
 import MarketGraphBox from "./GraphBox";
 import MarketOrdersBox from "./OrdersBox";
 import MarketOrderFormBox from "./OrderFormBox";
+import {exchanges} from "./../../api/config/config";
+
 
 class MarketContainer extends React.Component {
     handleTabChange = (event, activeTab) => {
@@ -25,8 +27,8 @@ class MarketContainer extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            activeTab: "BINANCE",
-            activeTicker: "ETHUSDT",
+            activeTab: exchanges[0].name,
+            activeTicker: exchanges[0].firstTicker,
             coin: "ETH",
             pair: "USDT",
         }
@@ -48,30 +50,19 @@ class MarketContainer extends React.Component {
                     className={classes.tabs}
                     indicatorColor="primary"
                 >
-                    <Tab
-                        label="Binance"
-                        value="BINANCE"
-                        classes={{
-                        	selected: classes.tabSelected,
-	                        root: classes.tabRoot
-                        }}
-                    />
-                    <Tab
-                        label="Bitfinex"
-                        value="BITFINEX"
-                        classes={{
-	                        selected: classes.tabSelected,
-	                        root: classes.tabRoot
-                        }}
-                    />
-                    <Tab
-                        label="Poloniex"
-                        value="POLONIEX"
-                        classes={{
-	                        selected: classes.tabSelected,
-	                        root: classes.tabRoot
-                        }}
-                    />
+	                {
+	                	exchanges.map(exchange => (
+			                <Tab
+				                label={exchange.name}
+				                value={exchange.name}
+				                classes={{
+					                selected: classes.tabSelected,
+					                root: classes.tabRoot
+				                }}
+			                />
+		                ))
+	                }
+                    
                 </Tabs>
                 <div className={classes.container}>
                     <div className={classes.flexRow1}>
