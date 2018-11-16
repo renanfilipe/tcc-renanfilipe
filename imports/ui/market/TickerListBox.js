@@ -85,7 +85,6 @@ class TickerListBox extends React.Component {
                     <TableBody>
                         {data.map(item => {
                             let {symbol, price, change} = item;
-                            const symbolName = symbol.replace(activeTab, `/${activeTab}`);
 
                             if(price && price < 1)
                                 price = parseFloat(price).toFixed(8);
@@ -113,7 +112,7 @@ class TickerListBox extends React.Component {
                                     classes={{root: classes.tableRow}}
                                     onClick={() => this.props.handleTickerChange(symbol)}
                                 >
-                                    <TableCell padding="none">{symbolName}</TableCell>
+                                    <TableCell padding="none">{symbol.replace(activeTab, `/${activeTab}`)}</TableCell>
                                     <TableCell padding="none" numeric>{price}</TableCell>
                                     <TableCell padding="none" numeric className={changeClass}>{`${change}%`}</TableCell>
                                 </TableRow>

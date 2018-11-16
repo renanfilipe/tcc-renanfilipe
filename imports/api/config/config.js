@@ -1,13 +1,15 @@
-export const exchanges = [
+export const exchangeData = [
 	{
-		name: "BINANCE",
-		pairList: [
-			"BTC",
-			"ETH",
-			"BNB",
-			"USDT",
-		],
-		firstTicker: "ETHUSDT",
-	},
+    	name: "BINANCE",
+        firstTicker: "ETHUSDT",
+    },
 ];
 
+export const exchangePairList = {
+	BINANCE: [
+		"BTC",
+		"ETH",
+		"BNB",
+		"USDT",
+	],
+};

@@ -7,11 +7,8 @@ const collector = new Collector();
 Meteor.startup(() => {
     collector.start();
 
-    Meteor.publish('tickerInfo', function (exchange, ticker) {
-        return Tickers.find(
-            {exchange: exchange, symbol: ticker},
-            {fields: {price: 1, high: 1, low: 1, volume: 1, change: 1}}
-        );
+    Meteor.publish('tickerInfo', function () {
+        return Tickers.find();
     });
 
     Meteor.publish('tickerList', function (exchange) {

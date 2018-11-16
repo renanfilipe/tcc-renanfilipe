@@ -2,13 +2,7 @@ import React from "react";
 import {withStyles} from "@material-ui/core/styles";
 
 class GraphBox extends React.Component {
-    constructor(props) {
-        super(props)
-    }
-
-    componentDidMount(){
-        const {exchange, ticker} = this.props;
-
+    loadGraph(exchange, ticker) {
         new TradingView.widget(
             {
                 "autosize": true,
@@ -26,10 +20,24 @@ class GraphBox extends React.Component {
         );
     }
 
+    constructor(props) {
+        super(props);
+    }
+
+    componentDidMount(){
+        const {exchange, ticker} = this.props;
+        this.loadGraph(exchange, ticker);
+    }
+
+    componentWillUpdate(nextProps, nextState, nextContext){
+        const {exchange, ticker} = nextProps;
+        this.loadGraph(exchange, ticker);
+    }
+
     render() {
         const {classes} = this.props;
         return (
-            <div id="tradingview_50691" className={classes.container}></div>
+            <div id="tradingview_50691" className={classes.container}>&nbsp;</div>
         );
     }
 }

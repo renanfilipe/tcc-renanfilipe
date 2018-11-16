@@ -10,33 +10,43 @@ import MarketTickerListBox from "./TickerListBox";
 import MarketGraphBox from "./GraphBox";
 import MarketOrdersBox from "./OrdersBox";
 import MarketOrderFormBox from "./OrderFormBox";
-import {exchanges} from "./../../api/config/config";
-
+import {exchangeData, exchangePairList} from "./../../api/config/config";
 
 class MarketContainer extends React.Component {
+    splitSymbolName = (symbol, pairList) => {
+        for (let i = 0; i < pairList.length; i++) {
+            if(symbol.endsWith(pairList[i])) {
+                return {
+                    coin: symbol.replace(pairList[i], ""),
+                    pair: pairList[i],
+                };
+            }
+        }
+    };
+
     handleTabChange = (event, activeTab) => {
         this.setState({activeTab});
     };
 
     handleTickerChange = (activeTicker) => {
-        this.setState({
-            activeTicker,
-        })
+        this.setState({activeTicker});
     };
 
     constructor(props) {
         super(props);
         this.state = {
-            activeTab: exchanges[0].name,
-            activeTicker: exchanges[0].firstTicker,
-            coin: "ETH",
-            pair: "USDT",
+            activeTab: exchangeData[0].name,
+            activeTicker: exchangeData[0].firstTicker,
         }
     }
 
     render() {
-        const {activeTab, activeTicker, coin, pair} = this.state;
+        const {activeTab, activeTicker} = this.state;
         const {classes} = this.props;
+        const splitSymbolName = this.splitSymbolName(activeTicker, exchangePairList[activeTab]);
+        const coin = splitSymbolName["coin"];
+        const pair = splitSymbolName["pair"];
+
         return (
             <div style={{flexGrow: 1}}>
                 <NavBar {...this.props}/>
@@ -51,8 +61,9 @@ class MarketContainer extends React.Component {
                     indicatorColor="primary"
                 >
 	                {
-	                	exchanges.map(exchange => (
+	                	exchangeData.map(exchange => (
 			                <Tab
+                                key={exchange.name}
 				                label={exchange.name}
 				                value={exchange.name}
 				                classes={{
@@ -79,11 +90,16 @@ class MarketContainer extends React.Component {
                             exchange={activeTab}
                             handleTickerChange={this.handleTickerChange}
                         />
-                        <MarketGraphBox exchange={activeTab} ticker={activeTicker}/>
+                        <MarketGraphBox
+                            exchange={activeTab}
+                            ticker={activeTicker}
+                        />
                     </div>
                     <div className={classes.flexRow2}>
                         <MarketOrdersBox/>
-                        <MarketOrderFormBox/>
+                        <MarketOrderFormBox
+                            coin={coin}
+                        />
                     </div>
                 </div>
             </div>

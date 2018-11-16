@@ -17,15 +17,31 @@ const TickerInfoBox = (props) => {
     let change = props.data && props.data.change ? parseFloat(props.data.change).toFixed(2) : undefined;
     let volume = props.data && props.data.volume ? props.data.volume : undefined;
 
+    if(price && price < 1) {
+        price = parseFloat(price).toFixed(8);
+        high = parseFloat(high).toFixed(8);
+        low = parseFloat(low).toFixed(8);
+    } else if(price && price < 10) {
+        price = parseFloat(price).toFixed(4);
+        high = parseFloat(high).toFixed(4);
+        low = parseFloat(low).toFixed(4);
+    } else if(price && price < 100) {
+        price = parseFloat(price).toFixed(3);
+        high = parseFloat(high).toFixed(3);
+        low = parseFloat(low).toFixed(3);
+    } else if (price) {
+        price = parseFloat(price).toFixed(2);
+        high = parseFloat(high).toFixed(2);
+        low = parseFloat(low).toFixed(2);
+    }
+
     if(pair === "USDT") {
-        if(price)
-            price = parseFloat(price).toFixed(2);
-        if(high)
-            high = parseFloat(high).toFixed(2);
-        if(low)
-            low = parseFloat(low).toFixed(2);
         if(volume)
             volume = parseFloat(volume).toFixed(2);
+    }
+
+    if(volume) {
+        volume = `${volume} ${pair}`;
     }
 
     let changeClass;
@@ -58,7 +74,7 @@ const TickerInfoBox = (props) => {
                     </TableRow>
                     <TableRow classes={{root: classes.tableRow}}>
                         <TableCell padding="none">24h Volume</TableCell>
-                        <TableCell padding="none" numeric>{`${volume} ${pair}`}</TableCell>
+                        <TableCell padding="none" numeric>{volume}</TableCell>
                     </TableRow>
                 </TableBody>
             </Table>
@@ -85,9 +101,12 @@ const styles = {
 };
 
 const TickerInfoContainer = withTracker(({exchange, ticker}) => {
-    const tickerInfoHandle = Meteor.subscribe("tickerInfo", exchange, ticker);
+    const tickerInfoHandle = Meteor.subscribe("tickerInfo");
     const loading = !tickerInfoHandle.ready();
-    const data = Tickers.findOne({});
+    const data = Tickers.findOne(
+        {exchange: exchange, symbol: ticker},
+        {fields: {price: 1, change: 1, high: 1, low: 1, volume: 1}}
+    );
     const dataExists = !loading && !!data;
     return {
         data: dataExists ? data : [],

@@ -40,7 +40,7 @@ class OrderFormBox extends React.Component {
     }
 
     render() {
-        const {classes} = this.props;
+        const {classes, coin} = this.props;
         const ActiveTab = this.renderTabContent();
         return (
             <Paper className={classes.root} elevation={3}>
@@ -88,11 +88,11 @@ class OrderFormBox extends React.Component {
                 </Tabs>
                 <div className={classes.buySellContainer}>
                     <div className={classes.buySellBox}>
-                        <span className={classes.span}>Buy BTC</span>
+                        <span className={classes.span}>{`Buy ${coin}`}</span>
                         <ActiveTab side={"buy"}/>
                     </div>
                     <div className={classes.buySellBox}>
-                        <span className={classes.span}>Sell BTC</span>
+                        <span className={classes.span}>{`Sell ${coin}`}</span>
                         <ActiveTab side={"sell"}/>
                     </div>
                 </div>
