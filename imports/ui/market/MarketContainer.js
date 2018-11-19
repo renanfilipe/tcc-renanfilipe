@@ -88,6 +88,7 @@ class MarketContainer extends React.Component {
                         </div>
                         <MarketTickerListBox
                             exchange={activeTab}
+                            pairList={exchangePairList[activeTab]}
                             handleTickerChange={this.handleTickerChange}
                         />
                         <MarketGraphBox
@@ -99,6 +100,7 @@ class MarketContainer extends React.Component {
                         <MarketOrdersBox/>
                         <MarketOrderFormBox
                             coin={coin}
+                            pair={pair}
                         />
                     </div>
                 </div>

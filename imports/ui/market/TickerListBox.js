@@ -4,6 +4,7 @@ import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableRow from "@material-ui/core/TableRow";
+import TableSortLabel from '@material-ui/core/TableSortLabel';
 import Tab from "@material-ui/core/Tab/Tab";
 import Tabs from "@material-ui/core/Tabs/Tabs";
 import TableHead from "@material-ui/core/TableHead";
@@ -13,6 +14,7 @@ import {ReactiveVar} from 'meteor/reactive-var';
 import {withTracker} from "meteor/react-meteor-data";
 
 const reactiveCoin = new ReactiveVar("USDT");
+const reactiveOrderBy = new ReactiveVar({"symbol": 1});
 
 class TickerListBox extends React.Component {
 	handleTabChange = (event, activeTab) => {
@@ -20,16 +22,34 @@ class TickerListBox extends React.Component {
 		this.setState({activeTab});
 	};
 
+	handleSort = (orderBy, order) => {
+	    if(order === "desc"){
+            order = "asc";
+            reactiveOrderBy.set({[orderBy]: -1})
+        } else {
+            order = "desc";
+            reactiveOrderBy.set({[orderBy]: 1})
+        }
+
+        this.setState({
+            orderBy,
+            order,
+        });
+    };
+
     constructor(props) {
         super(props);
         this.state = {
             activeTab: "USDT",
+            orderBy: "symbol",
+            order: "desc"
         }
     }
 
     render() {
-        const {classes, data} = this.props;
-		const {activeTab} = this.state;
+        const {classes, data, pairList} = this.props;
+		const {activeTab, orderBy, order} = this.state;
+
         return (
             <Paper className={classes.root} elevation={3}>
                 <Tabs
@@ -41,45 +61,58 @@ class TickerListBox extends React.Component {
                         root: classes.tabsRoot,
                     }}
                 >
-                    <Tab
-                        label="BTC"
-                        value="BTC"
-                        classes={{
-                            root: classes.tabRoot,
-                            labelContainer: classes.tabLabel,
-                        }}
-                    />
-                    <Tab
-                        label="ETH"
-                        value="ETH"
-                        classes={{
-                            root: classes.tabRoot,
-                            labelContainer: classes.tabLabel,
-                        }}
-                    />
-                    <Tab
-                        label="BNB"
-                        value="BNB"
-                        classes={{
-                            root: classes.tabRoot,
-                            labelContainer: classes.tabLabel,
-                        }}
-                    />
-	                <Tab
-		                label="USDT"
-		                value="USDT"
-                        classes={{
-                            root: classes.tabRoot,
-                            labelContainer: classes.tabLabel,
-                        }}
-	                />
+                    {
+                        pairList.map(pair => (
+                            <Tab
+                                key={pair}
+                                label={pair}
+                                value={pair}
+                                classes={{
+                                    root: classes.tabRoot,
+                                    labelContainer: classes.tabLabel,
+                                }}
+                            />
+                        ))
+                    }
                 </Tabs>
                 <Table className={classes.table} padding="checkbox">
 	                <TableHead>
 		                <TableRow classes={{root: classes.tableRow}}>
-			                <TableCell padding="none" style={{width: 100}}>Pair</TableCell>
-			                <TableCell padding="none" numeric style={{width: 76}}>Price</TableCell>
-			                <TableCell padding="none" numeric style={{width: 60}}>Change</TableCell>
+			                <TableCell
+                                padding="none"
+                                style={{width: 100}}
+                            >
+                                <TableSortLabel
+                                    active={orderBy === "symbol"}
+                                    direction={order}
+                                    onClick={() => this.handleSort("symbol", order)}
+                                >Pair
+                                </TableSortLabel>
+                            </TableCell>
+			                <TableCell
+                                padding="none"
+                                numeric
+                                style={{width: 76}}
+                            >
+                                <TableSortLabel
+                                    active={orderBy === "price"}
+                                    direction={order}
+                                    onClick={() => this.handleSort("price", order)}
+                                >Price
+                                </TableSortLabel>
+                            </TableCell>
+			                <TableCell
+                                padding="none"
+                                numeric
+                                style={{width: 60}}
+                            >
+                                <TableSortLabel
+                                    active={orderBy === "change"}
+                                    direction={order}
+                                    onClick={() => this.handleSort("change", order)}
+                                >Change
+                                </TableSortLabel>
+                            </TableCell>
 		                </TableRow>
 	                </TableHead>
                     <TableBody>
@@ -167,7 +200,7 @@ const styles = {
 const TickerListContainer = withTracker(({exchange}) => {
     const tickerListHandle = Meteor.subscribe("tickerList", exchange);
     const loading = !tickerListHandle.ready();
-    const data = Tickers.find({symbol: {"$regex": `${reactiveCoin.get()}$`}}, {sort: {symbol: 1}});
+    const data = Tickers.find({symbol: {"$regex": `${reactiveCoin.get()}$`}}, {sort: reactiveOrderBy.get()});
     const dataExists = !loading && !!data;
     return {
         data: dataExists ? data.fetch() : [],

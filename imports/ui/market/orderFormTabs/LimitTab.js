@@ -6,6 +6,7 @@ import {withStyles} from "@material-ui/core";
 
 class LimitTab extends React.Component {
     handleChange = name => event => {
+
         this.setState({
             [name]: event.target.value,
         });
@@ -22,26 +23,31 @@ class LimitTab extends React.Component {
     }
 
     render() {
-        const {classes} = this.props;
+        const {classes, coin, pair} = this.props;
 
         return (
             <div className={classes.container}>
                 <div className={classes.row}>
                     <span className={classes.label}>Price</span>
                     <TextField
-                        placeholder="USDT"
+                        type="number"
+                        placeholder={pair}
                         value={this.state.distance}
-                        onChange={this.handleChange('distance')}
+                        onChange={this.handleChange('price')}
                         variant="outlined"
                         margin="none"
                         InputLabelProps={{shrink: true}}
-                        inputProps={{className: classes.input}}
+                        inputProps={{
+                            className: classes.input,
+                            min: "0",
+                            step: "1",
+                        }}
                     />
                 </div>
                 <div className={classes.row}>
                     <span className={classes.label}>Amount</span>
                     <TextField
-                        placeholder="BTC"
+                        placeholder={coin}
                         value={this.state.amount}
                         onChange={this.handleChange('amount')}
                         variant="outlined"
@@ -54,7 +60,7 @@ class LimitTab extends React.Component {
                 <div className={classes.row} style={{marginTop: 8}}>
                     <span className={classes.label}>Total</span>
                     <TextField
-                        placeholder="USDT"
+                        placeholder={pair}
                         value={this.state.total}
                         onChange={this.handleChange('total')}
                         variant="outlined"
