@@ -1,4 +1,4 @@
-import {Tickers} from "./../mongo/collections";
+import {Tickers, Balances, Orders} from "./../mongo/collections";
 import {Meteor} from 'meteor/meteor';
 import BinanceWS from "binance/lib/ws";
 import BinanceRest from "binance/lib/rest";
@@ -6,7 +6,10 @@ import BinanceRest from "binance/lib/rest";
 class Collector {
     constructor() {
         this.binanceWS = new BinanceWS(true);
-        this.binanceRest = new BinanceRest({});
+        this.binanceRest = new BinanceRest({
+	        key: '',
+	        secret: '',
+        });
     }
 
     start(){
@@ -39,6 +42,39 @@ class Collector {
             })
         );
 
+        this.binanceWS.onUserData(binanceRest,
+	        Meteor.bindEnvironment(data => {
+	        	console.log(data);
+	        	if(data.eventType === "executionReport") {
+	        		const {
+				        tradeTime, eventTime, symbol, orderId, orderType, orderStatus,
+				        quantity, price, stopPrice, accumulatedQuantity, lastTradePrice,
+				        tradeId,
+	        		} = data;
+			        Orders.upsert(
+				        {
+					        exchange,
+					        symbol,
+							userId,
+				        },
+				        {
+					        exchange,
+					        symbol,
+					        high: parseFloat(high),
+					        low: parseFloat(low),
+					        change: parseFloat(priceChangePercent),
+					        price: parseFloat(currentClose),
+					        volume: parseFloat(quoteAssetVolume)
+				        },
+				        (err) => {
+					        if(err) {
+						        console.log(err)
+					        }
+				        }
+			        )
+		        }
+	        })
+        );
         // this.binanceRest.exchangeInfo(
         //     Meteor.bindEnvironment(data => {
         //         console.log("data", data);
