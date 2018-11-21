@@ -7,9 +7,12 @@ import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableRow from "@material-ui/core/TableRow";
 import Button from "@material-ui/core/Button";
+import {withTracker} from "meteor/react-meteor-data";
+import {Balances} from "../../api/mongo/collections";
 
 const OrdersBox = (props) => {
-    const {classes} = props;
+    const {classes, data} = props;
+    // const date = data && data.coin && data.coin.availableBalance ? data.coin.availableBalance : 0;
 
     return (
         <Paper className={classes.root} elevation={3}>
@@ -80,4 +83,17 @@ const styles = {
     },
 };
 
-export default withStyles(styles)(OrdersBox);
+const OrdersContainer = withTracker(({exchange, ticker}) => {
+    const balanceBoxHandle = Meteor.subscribe("orders");
+    const loading = !balanceBoxHandle.ready();
+    let data = Balances.find(
+        {exchange: exchange, userId: Meteor.userId(), ticker}
+    );
+
+    const dataExists = !loading && !!data;
+    return {
+        data: dataExists ? data.fetch() : [],
+    };
+})(withStyles(styles)(OrdersBox));
+
+export default OrdersContainer;
