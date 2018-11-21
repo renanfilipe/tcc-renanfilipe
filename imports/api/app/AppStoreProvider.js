@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import SnackBar from "../../ui/others/MySnackbar";
+import Dialog from "../../ui/others/MyDialog";
 
 export const AppContext = React.createContext();
 
@@ -12,6 +13,14 @@ export default class AppStoreProvider extends Component {
         this.setState({openSnackBar: false});
     };
 
+	handleOpenDialog = () => {
+		this.setState({ open: true });
+	};
+
+	handleCloseDialog = () => {
+		this.setState({ open: false });
+	};
+
     constructor(props) {
         super(props);
         this.children = props.children;
@@ -19,6 +28,10 @@ export default class AppStoreProvider extends Component {
             openSnackBar: false,
             snackBarMessage: "",
             variant: "info",
+	        openDialog: false,
+	        dialogTitle: "",
+	        dialogMessage: "",
+	        dialogButtons: undefined,
         };
     }
 
@@ -45,6 +58,13 @@ export default class AppStoreProvider extends Component {
                     autoHideDuration={3000}
                     message={<span id="message-id">{this.state.snackBarMessage}</span>}
                 />
+	            <Dialog
+		            open={this.handleOpenDialog}
+		            onClose={this.handleCloseDialog}
+		            title={this.state.dialogTitle}
+	                message={this.state.dialogMessage}
+	                buttons={this.state.dialogButtons}
+	            />
             </AppContext.Provider>
         );
     }
