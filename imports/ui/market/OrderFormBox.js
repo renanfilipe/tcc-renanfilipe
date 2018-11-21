@@ -86,7 +86,10 @@ class OrderFormBox extends React.Component {
                         }}
                     />
                 </Tabs>
-                <div className={classes.buySellContainer}>
+                <div
+	                id="orderForm"
+	                className={classes.buySellContainer}
+                >
                     <div className={classes.buySellBox}>
                         <span className={classes.span}>{`Buy ${coin}`}</span>
                         <ActiveTab side={"buy"} coin={coin} pair={pair}/>

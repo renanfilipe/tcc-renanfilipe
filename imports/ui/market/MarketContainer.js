@@ -101,7 +101,10 @@ class MarketContainer extends React.Component {
                         />
                     </div>
                     <div className={classes.flexRow2}>
-                        <MarketOrdersBox/>
+                        <MarketOrdersBox
+	                        exchange={activeTab}
+	                        ticker={activeTicker}
+                        />
                         <MarketOrderFormBox
                             coin={coin}
                             pair={pair}

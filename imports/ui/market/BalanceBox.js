@@ -11,12 +11,17 @@ import {Balances} from "../../api/mongo/collections";
 
 const BalanceBox = (props) => {
     const {classes, data, coin, pair} = props;
-    const availableCoin = data && data.coin && data.coin.availableBalance ? data.coin.availableBalance : 0;
-    const availablePair = data && data.pair && data.pair.availableBalance ? data.pair.availableBalance : 0;
-    const onOrderCoin = data && data.coin && data.coin.onOrderBalance ? parseFloat(data.coin.onOrderBalance) : 0;
-    const onOrderPair = data && data.pair && data.pair.onOrderBalance ? parseFloat(data.pair.onOrderBalance) : 0;
-    const totalCoin = availableCoin + onOrderCoin;
-    const totalPair = parseFloat(availablePair + onOrderPair);
+    const availableCoin = data && data.coin && data.coin.availableBalance ? parseFloat(data.coin.availableBalance) : 0;
+	const onOrderCoin = data && data.coin && data.coin.onOrderBalance ? parseFloat(data.coin.onOrderBalance) : 0;
+	const totalCoin = parseFloat(availableCoin + onOrderCoin);
+	let availablePair = data && data.pair && data.pair.availableBalance ? parseFloat(data.pair.availableBalance) : 0;
+	let onOrderPair = data && data.pair && data.pair.onOrderBalance ? parseFloat(data.pair.onOrderBalance) : 0;
+    let totalPair = parseFloat(availablePair + onOrderPair);
+
+	if(pair === "USDT")
+		availablePair = availablePair.toFixed(2);
+		onOrderPair = onOrderPair.toFixed(2);
+		totalPair = totalPair.toFixed(2);
 
     return (
         <Paper className={classes.root} elevation={3}>
@@ -86,7 +91,10 @@ const BalanceContainer = withTracker(({exchange, coin, pair}) => {
     const balanceBoxHandle = Meteor.subscribe("balance");
     const loading = !balanceBoxHandle.ready();
     let data = Balances.findOne(
-        {exchange: exchange, userId: Meteor.userId()},
+        {
+	        exchange: exchange,
+	        userId: Meteor.userId(),
+        },
         {fields: {balances: 1}}
     );
 

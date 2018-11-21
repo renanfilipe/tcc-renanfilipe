@@ -8,15 +8,14 @@ import TableCell from "@material-ui/core/TableCell";
 import TableRow from "@material-ui/core/TableRow";
 import Button from "@material-ui/core/Button";
 import {withTracker} from "meteor/react-meteor-data";
-import {Balances} from "../../api/mongo/collections";
+import {Orders} from "../../api/mongo/collections";
 
 const OrdersBox = (props) => {
     const {classes, data} = props;
-    // const date = data && data.coin && data.coin.availableBalance ? data.coin.availableBalance : 0;
 
     return (
         <Paper className={classes.root} elevation={3}>
-            <span>Orders</span>
+            <span>Open Orders</span>
             <div className={classes.tableContainer}>
                 <Table padding="checkbox">
                     <TableHead>
@@ -33,23 +32,43 @@ const OrdersBox = (props) => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        <TableRow classes={{root: classes.tableRow}}>
-                            <TableCell padding="none">11/11/18</TableCell>
-                            <TableCell padding="none">BTCD/USDT</TableCell>
-                            <TableCell padding="none">Stop-Loss</TableCell>
-                            <TableCell padding="none">Sell</TableCell>
-                            <TableCell padding="none">00.00000000</TableCell>
-                            <TableCell padding="none">10.1%</TableCell>
-                            <TableCell padding="none">00.00000000</TableCell>
-                            <TableCell padding="none">>= 0.00000000</TableCell>
-                            <TableCell padding="none">
-                                <Button
-                                    variant="outlined"
-                                    color="secondary"
-                                    classes={{root: classes.tableCellButton}}
-                                >X</Button>
-                            </TableCell>
-                        </TableRow>
+	                    {
+	                    	data ? data.map(order => {
+	                    		const {
+	                    			orderId,
+	                    			eventTime,
+				                    symbol,
+				                    orderType,
+				                    side,
+				                    price,
+				                    quantity,
+				                    stopPrice,
+			                    } = order;
+	                    		const filled = "0%";
+			                    return (
+				                    <TableRow
+					                    key={orderId}
+					                    classes={{root: classes.tableRow}}
+				                    >
+					                    <TableCell padding="none">{eventTime.toLocaleDateString("en-US")}</TableCell>
+					                    <TableCell padding="none">{symbol}</TableCell>
+					                    <TableCell padding="none">{orderType}</TableCell>
+					                    <TableCell padding="none">{side}</TableCell>
+					                    <TableCell padding="none">{price}</TableCell>
+					                    <TableCell padding="none">{filled}</TableCell>
+					                    <TableCell padding="none">{quantity}</TableCell>
+					                    <TableCell padding="none">{stopPrice}</TableCell>
+					                    <TableCell padding="none">
+						                    <Button
+							                    variant="outlined"
+							                    color="secondary"
+							                    classes={{root: classes.tableCellButton}}
+						                    >X</Button>
+					                    </TableCell>
+				                    </TableRow>
+			                    )
+		                    }) : <TableRow/>
+	                    }
                     </TableBody>
                 </Table>
             </div>
@@ -86,8 +105,16 @@ const styles = {
 const OrdersContainer = withTracker(({exchange, ticker}) => {
     const balanceBoxHandle = Meteor.subscribe("orders");
     const loading = !balanceBoxHandle.ready();
-    let data = Balances.find(
-        {exchange: exchange, userId: Meteor.userId(), ticker}
+    let data = Orders.find(
+    	{
+		    exchange: exchange,
+		    userId: Meteor.userId(),
+		    symbol: ticker,
+		    orderStatus: "NEW",
+        },
+	    {
+	    	sort: {eventTime: -1}
+	    },
     );
 
     const dataExists = !loading && !!data;

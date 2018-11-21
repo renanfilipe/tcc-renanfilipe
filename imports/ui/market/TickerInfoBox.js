@@ -104,8 +104,19 @@ const TickerInfoContainer = withTracker(({exchange, ticker}) => {
     const tickerInfoHandle = Meteor.subscribe("tickerInfo");
     const loading = !tickerInfoHandle.ready();
     const data = Tickers.findOne(
-        {exchange: exchange, symbol: ticker},
-        {fields: {price: 1, change: 1, high: 1, low: 1, volume: 1}}
+    	{
+		    exchange: exchange,
+		    symbol: ticker
+	    },
+        {
+        	fields: {
+        		price: 1,
+		        change: 1,
+		        high: 1,
+		        low: 1,
+		        volume: 1
+        	}
+        }
     );
     const dataExists = !loading && !!data;
     return {

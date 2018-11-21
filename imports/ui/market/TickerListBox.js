@@ -173,6 +173,7 @@ const styles = {
     },
     tableRow: {
         height: 25,
+	    cursor: "pointer",
     },
 	tabsRoot: {
         display: "inline-flex",
@@ -200,7 +201,10 @@ const styles = {
 const TickerListContainer = withTracker(({exchange}) => {
     const tickerListHandle = Meteor.subscribe("tickerList", exchange);
     const loading = !tickerListHandle.ready();
-    const data = Tickers.find({symbol: {"$regex": `${reactiveCoin.get()}$`}}, {sort: reactiveOrderBy.get()});
+    const data = Tickers.find(
+    	{symbol: {"$regex": `${reactiveCoin.get()}$`}},
+	    {sort: reactiveOrderBy.get()}
+    );
     const dataExists = !loading && !!data;
     return {
         data: dataExists ? data.fetch() : [],

@@ -15,7 +15,7 @@ class Collector {
 
     start(){
         const exchange = "BINANCE";
-        const userId = "LJYaGxKirz6ahxNdT";
+        const userId = accountInfo.BINANCE.userId;
 
         this.binanceWS.onAllTickers(
             Meteor.bindEnvironment(data => {

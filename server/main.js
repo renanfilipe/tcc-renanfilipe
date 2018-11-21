@@ -21,4 +21,8 @@ Meteor.startup(() => {
     Meteor.publish('balance', function () {
         return Balances.find();
     });
+
+	Meteor.publish('orders', function () {
+		return Orders.find();
+	});
 });
