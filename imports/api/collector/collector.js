@@ -1,19 +1,22 @@
 import {Tickers, Balances, Orders} from "./../mongo/collections";
-import {Meteor} from 'meteor/meteor';
+import {Meteor} from "meteor/meteor";
 import BinanceWS from "binance/lib/ws";
 import BinanceRest from "binance/lib/rest";
+import {accountInfo} from "./../config/config";
 
 class Collector {
     constructor() {
         this.binanceWS = new BinanceWS(true);
         this.binanceRest = new BinanceRest({
-	        key: '',
-	        secret: '',
+	        key: accountInfo.BINANCE.key,
+	        secret: accountInfo.BINANCE.secret,
         });
     }
 
     start(){
         const exchange = "BINANCE";
+        const userId = "LJYaGxKirz6ahxNdT";
+
         this.binanceWS.onAllTickers(
             Meteor.bindEnvironment(data => {
                 data.map(ticker => {
@@ -42,68 +45,69 @@ class Collector {
             })
         );
 
-        this.binanceWS.onUserData(binanceRest,
+        this.binanceWS.onUserData(this.binanceRest,
 	        Meteor.bindEnvironment(data => {
-	        	console.log(data);
-	        	if(data.eventType === "executionReport") {
+	            console.log("chegou dados");
+	        	if(data && data.eventType === "executionReport") {
 	        		const {
-				        tradeTime, eventTime, symbol, orderId, orderType, orderStatus,
-				        quantity, price, stopPrice, accumulatedQuantity, lastTradePrice,
-				        tradeId,
+				        eventTime, symbol, orderId, orderType, orderStatus, quantity, price, stopPrice,
+                        lastTradePrice, accumulatedQuantity, side, maker, rejectReason,
 	        		} = data;
+
 			        Orders.upsert(
+                        {
+                            exchange,
+                            symbol,
+                            userId,
+                            orderId,
+                        },
 				        {
-					        exchange,
+                            exchange,
 					        symbol,
-							userId,
-				        },
-				        {
-					        exchange,
-					        symbol,
-					        high: parseFloat(high),
-					        low: parseFloat(low),
-					        change: parseFloat(priceChangePercent),
-					        price: parseFloat(currentClose),
-					        volume: parseFloat(quoteAssetVolume)
+                            userId,
+                            side,
+                            eventTime: new Date(eventTime),
+                            orderId,
+                            orderType,
+                            orderStatus,
+                            quantity: parseFloat(quantity),
+                            price: parseFloat(price),
+                            stopPrice: parseFloat(stopPrice),
+                            accumulatedQuantity: parseFloat(accumulatedQuantity),
+                            lastTradePrice: parseFloat(lastTradePrice),
+                            maker,
+                            rejectReason,
 				        },
 				        (err) => {
 					        if(err) {
-						        console.log(err)
+						        console.log(err);
 					        }
 				        }
 			        )
-		        }
+		        } else if(data && data.eventType === "outboundAccountInfo") {
+                    const {balances} = data;
+                    Balances.upsert(
+                        {
+                            userId,
+                            exchange,
+                        },
+                        {
+                            userId,
+                            exchange,
+                            balances,
+                        },
+                        (err) => {
+                            if(err) {
+                                console.log(err);
+                            }
+                        }
+                    )
+                } else {
+	        	    console.log("unknown eventType", data);
+                }
 	        })
         );
-        // this.binanceRest.exchangeInfo(
-        //     Meteor.bindEnvironment(data => {
-        //         console.log("data", data);
-        //         data["symbols"].map(ticker => {
-        //             const {symbol, filters, baseAssetPrecision, quotePrecision} = ticker;
-        //             Tickers.upsert(
-        //                 {
-        //                     exchange,
-        //                     symbol
-        //                 },
-        //                 {
-        //                     exchange,
-        //                     symbol,
-        //                     filters,
-        //                     coinPrecision: baseAssetPrecision,
-        //                     pairPrecision: quotePrecision,
-        //                 },
-        //                 (err) => {
-        //                     if(err) {
-        //                         console.log(err)
-        //                     }
-        //                 }
-        //             )
-        //         });
-        //         console.log("carregou a porra toda")
-        //     })
-        // )
     }
 }
 
 export default Collector;
-

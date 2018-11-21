@@ -13,3 +13,10 @@ export const exchangePairList = {
 		"USDT",
 	],
 };
+
+export const accountInfo = {
+	BINANCE: {
+		key: "",
+        secret: "",
+	}
+};

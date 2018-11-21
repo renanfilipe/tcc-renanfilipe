@@ -6,9 +6,17 @@ import TableHead from "@material-ui/core/TableHead";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableRow from "@material-ui/core/TableRow";
+import {withTracker} from "meteor/react-meteor-data";
+import {Balances} from "../../api/mongo/collections";
 
-const MarketTickerInfoBox = (props) => {
-    const {classes} = props;
+const BalanceBox = (props) => {
+    const {classes, data, coin, pair} = props;
+    const availableCoin = data && data.coin && data.coin.availableBalance ? data.coin.availableBalance : 0;
+    const availablePair = data && data.pair && data.pair.availableBalance ? data.pair.availableBalance : 0;
+    const onOrderCoin = data && data.coin && data.coin.onOrderBalance ? parseFloat(data.coin.onOrderBalance) : 0;
+    const onOrderPair = data && data.pair && data.pair.onOrderBalance ? parseFloat(data.pair.onOrderBalance) : 0;
+    const totalCoin = availableCoin + onOrderCoin;
+    const totalPair = parseFloat(availablePair + onOrderPair);
 
     return (
         <Paper className={classes.root} elevation={3}>
@@ -16,44 +24,44 @@ const MarketTickerInfoBox = (props) => {
             <Table padding="checkbox">
                 <TableHead>
                     <TableRow classes={{root: classes.tableRow}}>
-                        <TableCell padding="none">BTC</TableCell>
+                        <TableCell padding="none">{coin}</TableCell>
                         <TableCell padding="none" numeric>Amount</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
                     <TableRow classes={{root: classes.tableRow}}>
                         <TableCell padding="none">Available</TableCell>
-                        <TableCell padding="none" numeric>0.00000001</TableCell>
+                        <TableCell padding="none" numeric>{availableCoin}</TableCell>
                     </TableRow>
                     <TableRow classes={{root: classes.tableRow}}>
-                        <TableCell padding="none">In Orders</TableCell>
-                        <TableCell padding="none" numeric>0.00000002</TableCell>
+                        <TableCell padding="none">On Orders</TableCell>
+                        <TableCell padding="none" numeric>{onOrderCoin}</TableCell>
                     </TableRow>
                     <TableRow classes={{root: classes.tableRow}}>
                         <TableCell padding="none">Total</TableCell>
-                        <TableCell padding="none" numeric>0.00000003</TableCell>
+                        <TableCell padding="none" numeric>{totalCoin}</TableCell>
                     </TableRow>
                 </TableBody>
             </Table>
             <Table padding="checkbox" style={{marginTop: 20}}>
                 <TableHead>
                     <TableRow classes={{root: classes.tableRow}}>
-                        <TableCell padding="none">USDT</TableCell>
+                        <TableCell padding="none">{pair}</TableCell>
                         <TableCell padding="none" numeric>Amount</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
                     <TableRow classes={{root: classes.tableRow}}>
                         <TableCell padding="none">Available</TableCell>
-                        <TableCell padding="none" numeric>10.00</TableCell>
+                        <TableCell padding="none" numeric>{availablePair}</TableCell>
                     </TableRow>
                     <TableRow classes={{root: classes.tableRow}}>
-                        <TableCell padding="none">In Orders</TableCell>
-                        <TableCell padding="none" numeric>50.00</TableCell>
+                        <TableCell padding="none">On Orders</TableCell>
+                        <TableCell padding="none" numeric>{onOrderPair}</TableCell>
                     </TableRow>
                     <TableRow classes={{root: classes.tableRow}}>
                         <TableCell padding="none">Total</TableCell>
-                        <TableCell padding="none" numeric>60.00</TableCell>
+                        <TableCell padding="none" numeric>{totalPair}</TableCell>
                     </TableRow>
                 </TableBody>
             </Table>
@@ -74,4 +82,24 @@ const styles = {
     },
 };
 
-export default withStyles(styles)(MarketTickerInfoBox);
+const BalanceContainer = withTracker(({exchange, coin, pair}) => {
+    const balanceBoxHandle = Meteor.subscribe("balance");
+    const loading = !balanceBoxHandle.ready();
+    let data = Balances.findOne(
+        {exchange: exchange, userId: Meteor.userId()},
+        {fields: {balances: 1}}
+    );
+
+    if(data && data.balances){
+        data.coin = data.balances.find(balance => coin === balance.asset);
+        data.pair = data.balances.find(balance => pair === balance.asset);
+        delete data.balances;
+    }
+
+    const dataExists = !loading && !!data;
+    return {
+        data: dataExists ? data : [],
+    };
+})(withStyles(styles)(BalanceBox));
+
+export default BalanceContainer;

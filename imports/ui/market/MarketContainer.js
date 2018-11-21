@@ -84,7 +84,11 @@ class MarketContainer extends React.Component {
                                 coin={coin}
                                 pair={pair}
                             />
-                            <MarketBalanceBox/>
+                            <MarketBalanceBox
+                                exchange={activeTab}
+                                coin={coin}
+                                pair={pair}
+                            />
                         </div>
                         <MarketTickerListBox
                             exchange={activeTab}
